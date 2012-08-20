@@ -1,4 +1,4 @@
-Middleman Delpoy -- Deploy a middleman built site over rsync.
+Middleman Delpoy -- Deploy a [middleman](http://middlemanapp.com/) built site over rsync.
 
 ===
 
