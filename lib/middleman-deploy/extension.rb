@@ -4,7 +4,7 @@ require "middleman-core"
 # Extension namespace
 module Middleman
   module Deploy
-    class Options < Struct.new(:host, :port, :user, :path); end
+    class Options < Struct.new(:delete, :host, :port, :user, :path); end
 
     class << self
 
@@ -12,6 +12,7 @@ module Middleman
         options = Options.new(options_hash)
         yield options if block_given?
 
+        options.delete ||= false
         options.port ||= 22
 
         app.after_configuration do
@@ -30,6 +31,10 @@ end
 
 EOF
           end
+        end
+
+        app.after_build do |builder|
+          builder.run "rsync -avze '" + "ssh -p #{options.port}" + "' #{"--delete" if options.delete == true} build/ #{options.user}@#{options.host}:#{options.path}"
         end
       end
       alias :included :registered
