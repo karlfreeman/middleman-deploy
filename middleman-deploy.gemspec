@@ -1,15 +1,16 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+require "middleman-deploy/pkg-info"
 
 Gem::Specification.new do |s|
-  s.name        = "middleman-deploy"
-  s.version     = "0.0.1"
+  s.name        = Middleman::Deploy::PACKAGE
+  s.version     = Middleman::Deploy::VERSION
   s.platform    = Gem::Platform::RUBY
-  # s.authors     = ["Your Name"]
-  # s.email       = ["email@example.com"]
-  # s.homepage    = "http://example.com"
-  # s.summary     = %q{A short summary of your extension}
-  # s.description = %q{A longer description of your extension}
+  s.authors     = ["Tom Vaughan"]
+  s.email       = ["thomas.david.vaughan@gmail.com"]
+  s.homepage    = "http://flavors.me/tvaughan"
+  s.summary     = %q{Deploy a middleman built site over rsync.}
+  s.description = %q{Deploy a middleman built site over rsync.}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
