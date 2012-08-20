@@ -14,12 +14,6 @@ module Middleman
 
         options.port ||= 22
 
-        # Include class methods
-        # app.extend ClassMethods
-
-        # Include instance methods
-        # app.send :include, InstanceMethods
-
         app.after_configuration do
           if (!options.host || !options.user || !options.path)
             raise <<EOF
@@ -40,16 +34,6 @@ EOF
       end
       alias :included :registered
     end
-
-    # module ClassMethods
-    #   def a_class_method
-    #   end
-    # end
-
-    # module InstanceMethods
-    #   def an_instance_method
-    #   end
-    # end
 
   end
 end
