@@ -59,3 +59,7 @@ Default is `false`.
 
     middleman build
     middleman deploy
+
+### NOTES
+
+Inspired by the rsync task in [Octopress](https://github.com/imathis/octopress).
