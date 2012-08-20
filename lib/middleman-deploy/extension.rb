@@ -2,38 +2,40 @@
 require "middleman-core"
 
 # Extension namespace
-module MyExtension
-  class << self
-    
-    # Called when user `activate`s your extension
-    def registered(app, options={})
-      # Setup extension-specific config
-      app.set :config_variable, false
-      
-      # Include class methods
-      # app.extend ClassMethods
-      
-      # Include instance methods
-      # app.send :include, InstanceMethods
-      
-      app.after_configuration do
-        # Do something
-        
-        # config_variable is now either the default or the user's 
-        # setting from config.rb
-      end
-    end
-    alias :included :registered
-  end
+module Middleman
+  module Deploy
+    class << self
 
-  # module ClassMethods
-  #   def a_class_method
-  #   end
-  # end
-  
-  # module InstanceMethods
-  #   def an_instance_method
-  #   end
-  # end
-    
+      # Called when user `activate`s your extension
+      def registered(app, options={})
+        # Setup extension-specific config
+        app.set :config_variable, false
+
+        # Include class methods
+        # app.extend ClassMethods
+
+        # Include instance methods
+        # app.send :include, InstanceMethods
+
+        app.after_configuration do
+          # Do something
+
+          # config_variable is now either the default or the user's
+          # setting from config.rb
+        end
+      end
+      alias :included :registered
+    end
+
+    # module ClassMethods
+    #   def a_class_method
+    #   end
+    # end
+
+    # module InstanceMethods
+    #   def an_instance_method
+    #   end
+    # end
+
+  end
 end
