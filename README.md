@@ -43,13 +43,17 @@ Adjust these values accordingly.
 
 #### These settings are optional.
 
-To use a particular SSH port (default is `22`), add:
+To use a particular SSH port, add:
 
       deploy.port = 5309
 
-To pass the `--delete` option to rsync (default is `false`), add:
+Default is `22`.
+
+To pass the `--delete` option to rsync, add:
 
       deploy.delete = true
+
+Default is `false`.
 
 ### Step 5
 
