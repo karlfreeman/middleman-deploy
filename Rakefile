@@ -21,9 +21,13 @@ task :build do
 end
 
 task :install => :build do
-  system "gem install pkg/#{PACKAGE}-#{VERSION}"
+  Dir.chdir("pkg") do
+    system "gem install #{PACKAGE}-#{VERSION}"
+  end
 end
 
 task :release => :build do
-  system "gem push pkg/#{PACKAGE}-#{VERSION}"
+  Dir.chdir("pkg") do
+    system "gem push #{PACKAGE}-#{VERSION}"
+  end
 end
