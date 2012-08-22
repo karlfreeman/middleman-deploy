@@ -18,7 +18,7 @@ module Middleman
         true
       end
 
-      desc "deploy", "Deploy to a remote host over rsync"
+      desc "deploy", "Copy build directory to a remote host over rsync"
       method_option "clean",
       :type => :boolean,
       :aliases => "-c",
