@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Tom Vaughan"]
   s.email       = ["thomas.david.vaughan@gmail.com"]
-  s.homepage    = "http://flavors.me/tvaughan"
+  s.homepage    = "http://tvaughan.github.com/middleman-deploy/"
   s.summary     = %q{Deploy a middleman built site over rsync.}
   s.description = %q{Deploy a middleman built site over rsync.}
 
