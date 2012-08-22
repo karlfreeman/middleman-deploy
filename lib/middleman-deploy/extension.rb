@@ -21,7 +21,7 @@ module Middleman
 
 
 ERROR: middleman-deploy is not setup correctly. host, user, and path
-*must* be set in config.ru. For example:
+*must* be set in config.rb. For example:
 
 activate :deploy do |deploy|
   deploy.user = "tvaughan"
