@@ -4,6 +4,7 @@ require "middleman-deploy/extension"
 
 module Middleman
   module Cli
+
     # This class provides a "deploy" command for the middleman CLI.
     class Deploy < Thor
       include Thor::Actions
@@ -49,9 +50,11 @@ module Middleman
 
         run command
       end
+
     end
 
     # Alias "d" to "deploy"
     Base.map({ "d" => "deploy" })
+
   end
 end

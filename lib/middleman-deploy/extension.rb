@@ -4,12 +4,15 @@ require "middleman-core"
 # Extension namespace
 module Middleman
   module Deploy
+
     class Options < Struct.new(:host, :port, :user, :path, :clean); end
 
     class << self
+
       def options
         @@options
       end
+
       def registered(app, options_hash={}, &block)
         options = Options.new(options_hash)
         yield options if block_given?
@@ -39,7 +42,9 @@ EOF
           end
         end
       end
+
       alias :included :registered
+
     end
 
     module Helpers
