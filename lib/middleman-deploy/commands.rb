@@ -33,7 +33,7 @@ module Middleman
 
         # These only exists when the config.rb sets them!
         if (!host || !user || !path)
-          raise Thor::Error.new "You need to activate the deploy extension in config.rb "
+          raise Thor::Error.new "You need to activate the deploy extension in config.rb"
         end
 
         command = "rsync -avze '" + "ssh -p #{port}" + "' build/ #{user}@#{host}:#{path}"
@@ -45,7 +45,7 @@ module Middleman
         end
 
         if clean
-          command += "--delete"
+          command += " --delete"
         end
 
         run command
