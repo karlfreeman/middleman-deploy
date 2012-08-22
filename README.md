@@ -31,7 +31,7 @@ Then run:
 
 #### These settings are required.
 
-Edit `config.ru`, and add:
+Edit `config.rb`, and add:
 
     activate :deploy do |deploy|
       deploy.user = "tvaughan"
