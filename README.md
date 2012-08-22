@@ -51,9 +51,9 @@ To use a particular SSH port, add:
 
 Default is `22`.
 
-To pass the `--delete` option to rsync, add:
+To remove orphaned files or directories on the remote host, add:
 
-      deploy.delete = true
+      deploy.clean = true
 
 Default is `false`.
 
