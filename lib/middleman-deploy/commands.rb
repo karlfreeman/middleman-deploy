@@ -19,11 +19,11 @@ module Middleman
 
       desc "deploy", "Deploy to a remote host over rsync"
       def deploy
-        shared_instance = ::Middleman::Application.server.inst
+        options = ::Middleman::Application.server.inst.options
 
-        # This only exists when the config.rb sets it!
-        if shared_instance.respond_to? :deploy
-          shared_instance.deploy(self)
+        # These only exists when the config.rb sets them!
+        if (options.host && options.user && options.path)
+          run "rsync -avze '" + "ssh -p #{options.port}" + "' #{"--delete" if options.delete == true} build/ #{options.user}@#{options.host}:#{options.path}"
         else
           raise Thor::Error.new "You need to activate the deploy extension in config.rb "
         end

@@ -43,9 +43,8 @@ EOF
     end
 
     module Helpers
-      def deploy(builder)
-        options = ::Middleman::Deploy.options
-        builder.run "rsync -avze '" + "ssh -p #{options.port}" + "' #{"--delete" if options.delete == true} build/ #{options.user}@#{options.host}:#{options.path}"
+      def options
+        ::Middleman::Deploy.options
       end
     end
 
