@@ -4,7 +4,7 @@ require "middleman-core"
 # Extension namespace
 module Middleman
   module Deploy
-    class Options < Struct.new(:delete, :host, :port, :user, :path); end
+    class Options < Struct.new(:host, :port, :user, :path, :clean); end
 
     class << self
       def options
@@ -14,8 +14,8 @@ module Middleman
         options = Options.new(options_hash)
         yield options if block_given?
 
-        options.delete ||= false
         options.port ||= 22
+        options.clean ||= false
 
         @@options = options
 

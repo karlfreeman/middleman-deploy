@@ -18,15 +18,36 @@ module Middleman
       end
 
       desc "deploy", "Deploy to a remote host over rsync"
+      method_option "clean",
+      :type => :boolean,
+      :aliases => "-c",
+      :desc => "Remove orphaned files or directories on the remote host"
       def deploy
-        options = ::Middleman::Application.server.inst.options
+        shared_inst = ::Middleman::Application.server.inst
+
+        host = shared_inst.options.host
+        port = shared_inst.options.port
+        user = shared_inst.options.user
+        path = shared_inst.options.path
 
         # These only exists when the config.rb sets them!
-        if (options.host && options.user && options.path)
-          run "rsync -avze '" + "ssh -p #{options.port}" + "' #{"--delete" if options.delete == true} build/ #{options.user}@#{options.host}:#{options.path}"
-        else
+        if (!host || !user || !path)
           raise Thor::Error.new "You need to activate the deploy extension in config.rb "
         end
+
+        command = "rsync -avze '" + "ssh -p #{port}" + "' build/ #{user}@#{host}:#{path}"
+
+        if options.has_key? "clean"
+          clean = options.clean
+        else
+          clean = shared_inst.options.clean
+        end
+
+        if clean
+          command += "--delete"
+        end
+
+        run command
       end
     end
 
