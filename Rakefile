@@ -31,3 +31,5 @@ task :release => :package do
     system "gem push #{PACKAGE}-#{VERSION}"
   end
 end
+
+task :default => :test
