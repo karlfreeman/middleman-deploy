@@ -3,8 +3,6 @@ source :rubygems
 # Specify your gem's dependencies in middleman-deploy.gemspec
 gemspec
 
-gemspec
-
 group :development do
   gem "rake",     "~> 0.9.2"
   gem "rdoc",     "~> 3.9"
