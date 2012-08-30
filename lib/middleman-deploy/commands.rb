@@ -2,6 +2,8 @@ require "middleman-core/cli"
 
 require "middleman-deploy/extension"
 
+require 'git'
+
 module Middleman
   module Cli
 
