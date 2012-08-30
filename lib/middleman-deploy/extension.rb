@@ -5,7 +5,7 @@ require "middleman-core"
 module Middleman
   module Deploy
 
-    class Options < Struct.new(:host, :port, :user, :path, :clean); end
+    class Options < Struct.new(:method, :host, :port, :user, :path, :clean); end
 
     class << self
 
@@ -17,6 +17,7 @@ module Middleman
         options = Options.new(options_hash)
         yield options if block_given?
 
+        options.method ||= :rsync
         options.port ||= 22
         options.clean ||= false
 
@@ -25,8 +26,9 @@ module Middleman
         app.send :include, Helpers
 
         app.after_configuration do
-          if (!options.host || !options.user || !options.path)
-            raise <<EOF
+          if (options.method == :rsync)
+            if (!options.host || !options.user || !options.path)
+              raise <<EOF
 
 
 ERROR: middleman-deploy is not setup correctly. host, user, and path
@@ -39,6 +41,7 @@ activate :deploy do |deploy|
 end
 
 EOF
+            end
           end
         end
       end

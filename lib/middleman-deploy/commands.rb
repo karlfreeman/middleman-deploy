@@ -18,18 +18,26 @@ module Middleman
         true
       end
 
-      desc "deploy", "Copy build directory to a remote host over rsync"
+      desc "deploy", "Copy build directory to a remote host"
       method_option "clean",
       :type => :boolean,
       :aliases => "-c",
       :desc => "Remove orphaned files or directories on the remote host"
       def deploy
-        shared_inst = ::Middleman::Application.server.inst
+        send("deploy_#{self.middleman_options.method}")
+      end
 
-        host = shared_inst.options.host
-        port = shared_inst.options.port
-        user = shared_inst.options.user
-        path = shared_inst.options.path
+      protected
+
+      def middleman_options
+        ::Middleman::Application.server.inst.options
+      end
+
+      def deploy_rsync
+        host = self.middleman_options.host
+        port = self.middleman_options.port
+        user = self.middleman_options.user
+        path = self.middleman_options.path
 
         # These only exists when the config.rb sets them!
         if (!host || !user || !path)
@@ -49,6 +57,30 @@ module Middleman
         end
 
         run command
+      end
+
+      def deploy_git
+        puts "## Deploying to Github Pages"
+        Dir.mktmpdir do |tmp|
+          # clone ./ with branch gh-pages to tmp
+          repo = Git.clone(ENV['MM_ROOT'], tmp)
+          repo.checkout('origin/gh-pages', :new_branch => 'gh-pages')
+
+          # copy ./build/* to tmp
+          FileUtils.cp_r(Dir.glob(File.join(ENV['MM_ROOT'], 'build', '*')), tmp)
+
+          # git add and commit in tmp
+          repo.add
+          repo.commit("Automated commit at #{Time.now.utc}")
+
+          # push from tmp to self
+          repo.push('origin', 'gh-pages')
+
+          # push to github
+          github_url = Git.open(ENV['MM_ROOT']).remote.url
+          repo.add_remote('github', github_url)
+          repo.push('github', 'gh-pages')
+        end
       end
 
     end
