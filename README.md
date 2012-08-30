@@ -6,7 +6,7 @@ Middleman Delpoy -- Deploy a [middleman](http://middlemanapp.com/) built site ov
 
 ## QUICK START
 
-Be sure that `rsync` is installed.
+If deploying through `rsync`, be sure it is installed.
 
 ### Step 1
 
@@ -27,21 +27,20 @@ Then run:
 
     bundle install
 
-### Step 4
+### Step 4a - Rsync setup
 
 #### These settings are required.
 
 Edit `config.rb`, and add:
 
     activate :deploy do |deploy|
-      deploy.user = "tvaughan"
-      deploy.host = "www.example.com"
-      deploy.path = "/srv/www/site"
+      deploy.method = :rsync
+      deploy.user   = "tvaughan"
+      deploy.host   = "www.example.com"
+      deploy.path   = "/srv/www/site"
     end
 
 Adjust these values accordingly.
-
-### Step 4.1
 
 #### These settings are optional.
 
@@ -56,6 +55,17 @@ To remove orphaned files or directories on the remote host, add:
       deploy.clean = true
 
 Default is `false`.
+
+### Step 4b - Github Pages setup
+
+Edit `config.rb`, and add:
+
+    activate :deploy do |deploy|
+      deploy.method = :git
+    end
+
+The git deploy method assumes your project is in a repository with
+github set up as `origin` and a working `gh-pages` branch already in place.
 
 ### Step 5
 
