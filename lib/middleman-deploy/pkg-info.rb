@@ -1,6 +1,6 @@
 module Middleman
   module Deploy
     PACKAGE = "middleman-deploy"
-    VERSION = "0.0.3"
+    VERSION = "0.0.4"
   end
 end
