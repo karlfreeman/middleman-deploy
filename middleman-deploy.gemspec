@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = Middleman::Deploy::PACKAGE
   s.version     = Middleman::Deploy::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Tom Vaughan"]
+  s.authors     = ["Tom Vaughan","Ben Cates"]
   s.email       = ["thomas.david.vaughan@gmail.com"]
   s.homepage    = "http://tvaughan.github.com/middleman-deploy/"
-  s.summary     = %q{Deploy a middleman built site over rsync.}
-  s.description = %q{Deploy a middleman built site over rsync.}
+  s.summary     = %q{Deploy a middleman built site over rsync or to github pages.}
+  s.description = %q{Deploy a middleman built site over rsync or to github pages.}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("middleman-core", [">= 3.0.0"])
   
   # Additional dependencies
-  # s.add_runtime_dependency("gem-name", "gem-version")
+  s.add_runtime_dependency("git", "~> 1.2.0")
 end
