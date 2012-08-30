@@ -1,4 +1,4 @@
-Middleman Delpoy -- Deploy a [middleman](http://middlemanapp.com/) built site over rsync.
+Middleman Delpoy -- Deploy a [middleman](http://middlemanapp.com/) built site over rsync or to github pages.
 
 [![Build Status](https://secure.travis-ci.org/tvaughan/middleman-deploy.png)](http://travis-ci.org/tvaughan/middleman-deploy)
 
