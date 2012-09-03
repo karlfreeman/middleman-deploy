@@ -51,7 +51,7 @@ module Middleman
         if options.has_key? "clean"
           clean = options.clean
         else
-          clean = shared_inst.options.clean
+          clean = self.middleman_options.clean
         end
 
         if clean
