@@ -21,7 +21,7 @@ If deploying through `rsync`, be sure it is installed.
 
 Edit `Gemfile`, and add:
 
-    gem "middleman-deploy"
+    gem "middleman-deploy", "~>0.0.1"
 
 Then run:
 
@@ -35,9 +35,9 @@ Edit `config.rb`, and add:
 
     activate :deploy do |deploy|
       deploy.method = :rsync
-      deploy.user   = "tvaughan"
-      deploy.host   = "www.example.com"
-      deploy.path   = "/srv/www/site"
+      deploy.user = "tvaughan"
+      deploy.host = "www.example.com"
+      deploy.path = "/srv/www/site"
     end
 
 Adjust these values accordingly.
@@ -56,7 +56,7 @@ To remove orphaned files or directories on the remote host, add:
 
 Default is `false`.
 
-### Step 4b - Github Pages setup
+### Step 4b - GitHub Pages setup
 
 Edit `config.rb`, and add:
 
@@ -69,7 +69,7 @@ github set up as `origin` and a working `gh-pages` branch already in place.
 
 ### Step 5
 
-    middleman build
+    middleman build [--clean]
     middleman deploy
 
 ### NOTES

@@ -99,7 +99,7 @@ EOF
       end
 
       def deploy_git
-        puts "## Deploying to Github Pages"
+        puts "## Deploying to GitHub Pages"
         Dir.mktmpdir do |tmp|
           # clone ./ with branch gh-pages to tmp
           repo = Git.clone(ENV['MM_ROOT'], tmp)
