@@ -44,7 +44,7 @@ activate :deploy do |deploy|
   deploy.user = "tvaughan"
   deploy.host = "www.example.com"
   deploy.path = "/srv/www/site"
-  # clean is optional (default is false).
+  # clean is optional (default is false)
   deploy.clean = true
 end
 
@@ -61,16 +61,16 @@ EOF
         begin
           options = ::Middleman::Application.server.inst.options
         rescue
-          print_usage_and_die "You need to activate the deploy extension in config.rb"
+          print_usage_and_die "You need to activate the deploy extension in config.rb."
         end
 
         if (!options.method)
-          print_usage_and_die "The deploy extension requires you to set a method"
+          print_usage_and_die "The deploy extension requires you to set a method."
         end
 
         if (options.method == :rsync)
           if (!options.host || !options.user || !options.path)
-            print_usage_and_die "The rsync deploy method requires host, user, and path to be set"
+            print_usage_and_die "The rsync deploy method requires host, user, and path to be set."
           end
         end
 
