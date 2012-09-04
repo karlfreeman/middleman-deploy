@@ -14,4 +14,5 @@ group :test do
   gem "fivemat"
   gem "aruba",    "~> 0.4.11"
   gem "rspec",    "~> 2.7"
+  gem "simplecov"
 end
