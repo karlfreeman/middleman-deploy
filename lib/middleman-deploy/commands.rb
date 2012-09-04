@@ -26,32 +26,69 @@ module Middleman
       :aliases => "-c",
       :desc => "Remove orphaned files or directories on the remote host"
       def deploy
-        send("deploy_#{self.middleman_options.method}")
+        send("deploy_#{self.deploy_options.method}")
       end
 
       protected
 
-      def middleman_options
-        ::Middleman::Application.server.inst.options
+      def print_usage_and_die(message)
+        raise Error, "ERROR: " + message + "\n" + <<EOF
+
+You should follow one of the two examples below to setup the deploy
+extension in config.rb.
+
+# To copy the build directory to a remote host:
+activate :deploy do |deploy|
+  deploy.method = :rsync
+  # host, user, and path *must* be set
+  deploy.user = "tvaughan"
+  deploy.host = "www.example.com"
+  deploy.path = "/srv/www/site"
+  # clean is optional (default is false).
+  deploy.clean = true
+end
+
+# To push to a remote gh-pages branch on GitHub:
+activate :deploy do |deploy|
+  deploy.method = :git
+end
+EOF
+      end
+
+      def deploy_options
+        options = nil
+
+        begin
+          options = ::Middleman::Application.server.inst.options
+        rescue
+          print_usage_and_die "You need to activate the deploy extension in config.rb"
+        end
+
+        if (!options.method)
+          print_usage_and_die "The deploy extension requires you to set a method"
+        end
+
+        if (options.method == :rsync)
+          if (!options.host || !options.user || !options.path)
+            print_usage_and_die "The rsync deploy method requires host, user, and path to be set"
+          end
+        end
+
+        options
       end
 
       def deploy_rsync
-        host = self.middleman_options.host
-        port = self.middleman_options.port
-        user = self.middleman_options.user
-        path = self.middleman_options.path
-
-        # These only exists when the config.rb sets them!
-        if (!host || !user || !path)
-          raise Thor::Error.new "You need to activate the deploy extension in config.rb"
-        end
+        host = self.deploy_options.host
+        port = self.deploy_options.port
+        user = self.deploy_options.user
+        path = self.deploy_options.path
 
         command = "rsync -avze '" + "ssh -p #{port}" + "' build/ #{user}@#{host}:#{path}"
 
         if options.has_key? "clean"
           clean = options.clean
         else
-          clean = self.middleman_options.clean
+          clean = self.deploy_options.clean
         end
 
         if clean
