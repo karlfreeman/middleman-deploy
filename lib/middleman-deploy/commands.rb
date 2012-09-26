@@ -51,6 +51,8 @@ end
 # To push to a remote gh-pages branch on GitHub:
 activate :deploy do |deploy|
   deploy.method = :git
+  # git branch to push (default is gh-pages)
+  deploy.branch = "master"
 end
 EOF
       end
@@ -99,11 +101,13 @@ EOF
       end
 
       def deploy_git
+        branch = self.deploy_options.branch
+
         puts "## Deploying to GitHub Pages"
         Dir.mktmpdir do |tmp|
           # clone ./ with branch gh-pages to tmp
           repo = Git.clone(ENV['MM_ROOT'], tmp)
-          repo.checkout('origin/gh-pages', :new_branch => 'gh-pages')
+          repo.checkout("origin/#{branch}", :new_branch => branch)
 
           # copy ./build/* to tmp
           FileUtils.cp_r(Dir.glob(File.join(ENV['MM_ROOT'], 'build', '*')), tmp)
@@ -113,12 +117,12 @@ EOF
           repo.commit("Automated commit at #{Time.now.utc}")
 
           # push from tmp to self
-          repo.push('origin', 'gh-pages')
+          repo.push('origin', branch)
 
           # push to github
           github_url = Git.open(ENV['MM_ROOT']).remote.url
           repo.add_remote('github', github_url)
-          repo.push('github', 'gh-pages')
+          repo.push('github', branch)
         end
       end
 
