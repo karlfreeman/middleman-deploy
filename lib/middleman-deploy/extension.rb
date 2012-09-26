@@ -19,7 +19,7 @@ module Middleman
 
         options.port ||= 22
         options.clean ||= false
-		options.branch ||= "gh-pages"
+        options.branch ||= "gh-pages"
 
         @@options = options
 
