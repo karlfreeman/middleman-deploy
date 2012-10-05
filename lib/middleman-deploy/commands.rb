@@ -1,8 +1,12 @@
 require "middleman-core/cli"
 
 require "middleman-deploy/extension"
+require "middleman-deploy/pkg-info"
 
-require 'git'
+require "git"
+
+PACKAGE = "#{Middleman::Deploy::PACKAGE}"
+VERSION = "#{Middleman::Deploy::VERSION}"
 
 module Middleman
   module Cli
@@ -20,7 +24,7 @@ module Middleman
         true
       end
 
-      desc "deploy", "Copy build directory to a remote host"
+      desc "deploy", "Deploy build directory to a remote host via rsync or git"
       method_option "clean",
       :type => :boolean,
       :aliases => "-c",
@@ -37,7 +41,7 @@ module Middleman
 You should follow one of the two examples below to setup the deploy
 extension in config.rb.
 
-# To copy the build directory to a remote host:
+# To deploy the build directory to a remote host via rsync:
 activate :deploy do |deploy|
   deploy.method = :rsync
   # host, user, and path *must* be set
@@ -48,11 +52,15 @@ activate :deploy do |deploy|
   deploy.clean = true
 end
 
-# To push to a remote gh-pages branch on GitHub:
+# To deploy to a remote branch via git (e.g. gh-pages on github):
 activate :deploy do |deploy|
   deploy.method = :git
-  # git branch to push (default is gh-pages)
-  deploy.branch = "master"
+  # remote is optional (default is "origin")
+  # run `git remote -v` to see a list of possible remotes
+  deploy.remote = "some-other-remote-name"
+  # branch is optional (default is "gh-pages")
+  # run `git branch -a` to see a list of possible branches
+  deploy.branch = "some-other-branch-name"
 end
 EOF
       end
@@ -85,6 +93,8 @@ EOF
         user = self.deploy_options.user
         path = self.deploy_options.path
 
+        puts "## Deploying via rsync to #{user}@#{host}:#{path} port=#{port}"
+
         command = "rsync -avze '" + "ssh -p #{port}" + "' build/ #{user}@#{host}:#{path}"
 
         if options.has_key? "clean"
@@ -101,29 +111,33 @@ EOF
       end
 
       def deploy_git
+        remote = self.deploy_options.remote
         branch = self.deploy_options.branch
 
-        puts "## Deploying to GitHub Pages"
+        puts "## Deploying via git to remote=\"#{remote}\" and branch=\"#{branch}\""
+
+        # ensure that the remote branch exists in ENV["MM_ROOT"]
+        orig = Git.open(ENV["MM_ROOT"])
+        # TODO: orig.branch(branch, "#{remote}/#{branch}")
+
         Dir.mktmpdir do |tmp|
-          # clone ./ with branch gh-pages to tmp
-          repo = Git.clone(ENV['MM_ROOT'], tmp)
+          # clone ENV["MM_ROOT"] to tmp (ENV["MM_ROOT"] is now "origin")
+          repo = Git.clone(ENV["MM_ROOT"], tmp)
           repo.checkout("origin/#{branch}", :new_branch => branch)
 
           # copy ./build/* to tmp
-          FileUtils.cp_r(Dir.glob(File.join(ENV['MM_ROOT'], 'build', '*')), tmp)
+          FileUtils.cp_r(Dir.glob(File.join(ENV["MM_ROOT"], "build", "*")), tmp)
 
           # git add and commit in tmp
           repo.add
-          repo.commit("Automated commit at #{Time.now.utc}")
+          repo.commit("Automated commit at #{Time.now.utc} by #{PACKAGE} #{VERSION}")
 
-          # push from tmp to self
-          repo.push('origin', branch)
-
-          # push to github
-          github_url = Git.open(ENV['MM_ROOT']).remote.url
-          repo.add_remote('github', github_url)
-          repo.push('github', branch)
+          # push back into ENV["MM_ROOT"]
+          repo.push("origin", branch)
         end
+
+        orig.push(remote, branch)
+        orig.remote(remote).fetch
       end
 
     end
