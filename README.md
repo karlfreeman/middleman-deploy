@@ -61,6 +61,18 @@ Default is `false`.
 First be sure that you have already placed your project under revision
 control using git.
 
+For example, for the default values of remote="master" and
+branch="gh-pages", the output of `git branch -a` should look like:
+
+      gh-pages
+    * master
+      remotes/origin/HEAD -> origin/master
+      remotes/origin/gh-pages
+      remotes/origin/master
+
+This shows that "gh-pages" exists in the remote and local repos. There
+needs to be at least one commit in "gh-pages" with which to start.
+
 Edit `config.rb`, and add:
 
     activate :deploy do |deploy|
