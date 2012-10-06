@@ -1,8 +1,6 @@
 require "middleman-core/cli"
-
 require "middleman-deploy/extension"
-
-require 'git'
+require "git"
 
 module Middleman
   module Cli
@@ -21,9 +19,7 @@ module Middleman
       end
 
       desc "deploy", "Copy build directory to a remote host"
-      method_option "clean",
-      :type => :boolean,
-      :aliases => "-c",
+      method_options "clean", :type => :boolean, :aliases => "-c",
       :desc => "Remove orphaned files or directories on the remote host"
       def deploy
         send("deploy_#{self.deploy_options.method}")
@@ -32,7 +28,7 @@ module Middleman
       protected
 
       def print_usage_and_die(message)
-        raise Error, "ERROR: " + message + "\n" + <<EOF
+        raise Thor::Error.new, "ERROR: " + message + "\n" + <<EOF
 
 You should follow one of the two examples below to setup the deploy
 extension in config.rb.
@@ -51,6 +47,10 @@ end
 # To push to a remote gh-pages branch on GitHub:
 activate :deploy do |deploy|
   deploy.method = :git
+  # branch and source option can be set, defaults to gh-pages branch and source upload
+  deploy.branch = "gh-pages"
+  deploy.source = "true"
+
 end
 EOF
       end
@@ -99,6 +99,9 @@ EOF
       end
 
       def deploy_git
+        branch = self.deploy_options.branch
+        source = self.deploy_options.source
+
         puts "## Deploying to GitHub Pages"
         Dir.mktmpdir do |tmp|
           # clone ./ with branch gh-pages to tmp
