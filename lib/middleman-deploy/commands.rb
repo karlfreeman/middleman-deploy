@@ -18,6 +18,7 @@ module Middleman
         true
       end
 
+      # Options for deployment
       desc "deploy", "Copy build directory to a remote host"
       method_option :clean, :type => :boolean, :aliases => "-c",
       :desc => "Remove orphaned files or directories on the remote host"
@@ -80,6 +81,7 @@ EOF
         options
       end
 
+      desc "deploy_rsync", "Synchronise to your server via rsync"
       def deploy_rsync
         host = self.deploy_options.host
         port = self.deploy_options.port
@@ -101,6 +103,7 @@ EOF
         run command
       end
 
+      desc "deploy_git", "Deploy to github via git"
       def deploy_git
         branch = self.deploy_options.branch
         source = self.deploy_options.source
