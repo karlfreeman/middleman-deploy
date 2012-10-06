@@ -19,8 +19,11 @@ module Middleman
       end
 
       desc "deploy", "Copy build directory to a remote host"
-      method_options "clean", :type => :boolean, :aliases => "-c",
+      method_option :clean, :type => :boolean, :aliases => "-c",
       :desc => "Remove orphaned files or directories on the remote host"
+      method_option :source, :type => :boolean, :aliases => "-s",
+      :desc => "Deploy with source files"
+
       def deploy
         send("deploy_#{self.deploy_options.method}")
       end
@@ -106,7 +109,7 @@ EOF
         Dir.mktmpdir do |tmp|
           # clone ./ with branch gh-pages to tmp
           repo = Git.clone(ENV['MM_ROOT'], tmp)
-          repo.checkout('origin/gh-pages', :new_branch => 'gh-pages')
+          repo.checkout('origin/#{branch}', :new_branch => '#{branch}')
 
           # copy ./build/* to tmp
           FileUtils.cp_r(Dir.glob(File.join(ENV['MM_ROOT'], 'build', '*')), tmp)
@@ -114,14 +117,17 @@ EOF
           # git add and commit in tmp
           repo.add
           repo.commit("Automated commit at #{Time.now.utc}")
+          puts "\n## Automated Commit: Site updated at #{Time.now.utc}"
 
           # push from tmp to self
-          repo.push('origin', 'gh-pages')
+          repo.push('origin', branch)
 
           # push to github
           github_url = Git.open(ENV['MM_ROOT']).remote.url
           repo.add_remote('github', github_url)
-          repo.push('github', 'gh-pages')
+          puts "\n## Pushing generated #{deploy_dir} website"
+          repo.push('github', branch)
+          puts "\n## Github Pages deploy complete"
         end
       end
 
