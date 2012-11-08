@@ -62,6 +62,16 @@ activate :deploy do |deploy|
   # run `git branch -a` to see a list of possible branches
   deploy.branch = "some-other-branch-name"
 end
+
+# To deploy the build directory to a remote host via ftp:
+activate :deploy do |deploy|
+  deploy.method = :ftp
+  # host, user, passwword and path *must* be set
+  deploy.host = "ftp.example.com"
+  deploy.user = "tvaughan"
+  deploy.password = "secret"
+  deploy.path = "/srv/www/site"
+end
 EOF
       end
 
