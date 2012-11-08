@@ -95,6 +95,22 @@ To use a particular branch, add:
 Default is `gh-pages`. Run `git branch -a` to see a list of possible
 branches.
 
+### Step 4c - FTP setup
+
+#### These settings are required.
+
+Edit `config.rb`, and add:
+
+    activate :deploy do |deploy|
+      deploy.method = :ftp
+      deploy.host = "ftp.example.com"
+      deploy.user = "tvaughan"
+      deploy.password = "secret"
+      deploy.path = "/srv/www/site"
+    end
+
+Adjust these values accordingly.
+
 ### Step 5
 
     middleman build [--clean]

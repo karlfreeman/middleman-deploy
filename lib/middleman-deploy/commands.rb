@@ -62,6 +62,16 @@ activate :deploy do |deploy|
   # run `git branch -a` to see a list of possible branches
   deploy.branch = "some-other-branch-name"
 end
+
+# To deploy the build directory to a remote host via ftp:
+activate :deploy do |deploy|
+  deploy.method = :ftp
+  # host, user, passwword and path *must* be set
+  deploy.host = "ftp.example.com"
+  deploy.user = "tvaughan"
+  deploy.password = "secret"
+  deploy.path = "/srv/www/site"
+end
 EOF
       end
 
@@ -138,6 +148,54 @@ EOF
 
         orig.push(remote, branch)
         orig.remote(remote).fetch
+      end
+
+      def deploy_ftp
+        require 'net/ftp'
+        require 'ptools'
+
+        host = self.deploy_options.host
+        user = self.deploy_options.user
+        pass = self.deploy_options.password
+        path = self.deploy_options.path
+
+        puts "## Deploying via ftp to #{user}@#{host}:#{path}"
+
+        ftp = Net::FTP.new(host)
+        ftp.login(user, pass)
+        ftp.chdir(path)
+        ftp.passive = true
+
+        Dir.chdir('build/') do
+          Dir['**/*'].each do |f|
+            if File.directory?(f)
+              begin
+                ftp.mkdir(f)
+              rescue
+                puts "Folder '#{f}' exists. skipping..."
+              end
+            else
+              begin
+                if File.binary?(f)
+                  ftp.putbinaryfile(f, f)
+                else
+                  ftp.puttextfile(f, f)
+                end
+              rescue Exception => e
+                reply = e.message
+                err_code = reply[0,3].to_i
+                if err_code == 550
+                  if File.binary?(f)
+                    ftp.putbinaryfile(f, f)
+                  else
+                    ftp.puttextfile(f, f)
+                  end
+                end
+              end
+            end
+          end
+        end
+        ftp.close
       end
 
     end
