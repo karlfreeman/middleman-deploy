@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name        = Middleman::Deploy::PACKAGE
   s.version     = Middleman::Deploy::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Tom Vaughan","Ben Cates"]
+  s.authors     = ["Tom Vaughan"]
   s.email       = ["thomas.david.vaughan@gmail.com"]
   s.homepage    = "http://tvaughan.github.com/middleman-deploy/"
   s.summary     = %q{Deploy a middleman built site over rsync or via git (e.g. gh-pages on github).}
