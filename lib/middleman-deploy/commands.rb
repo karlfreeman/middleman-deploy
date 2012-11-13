@@ -38,7 +38,7 @@ module Middleman
       def print_usage_and_die(message)
         raise Error, "ERROR: " + message + "\n" + <<EOF
 
-You should follow one of the two examples below to setup the deploy
+You should follow one of the three examples below to setup the deploy
 extension in config.rb.
 
 # To deploy the build directory to a remote host via rsync:
