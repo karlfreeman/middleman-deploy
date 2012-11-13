@@ -116,6 +116,16 @@ Adjust these values accordingly.
     middleman build [--clean]
     middleman deploy [--clean]
 
+To automatically run middleman-deploy after `middleman build`, add:
+
+      deploy.after_build = true
+
+Default is `false`.
+
+Please note that if the `--clean` or `--no-clean` option is passed to
+`middleman build` it will not be passed to `middleman deploy`. For now
+only the value of `deploy.clean` in `config.rb` will be used.
+
 ### NOTES
 
 Inspired by the rsync task in [Octopress](https://github.com/imathis/octopress).
