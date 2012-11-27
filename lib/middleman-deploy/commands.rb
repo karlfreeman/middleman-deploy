@@ -3,8 +3,6 @@ require "middleman-core/cli"
 require "middleman-deploy/extension"
 require "middleman-deploy/pkg-info"
 
-require "git"
-
 PACKAGE = "#{Middleman::Deploy::PACKAGE}"
 VERSION = "#{Middleman::Deploy::VERSION}"
 
@@ -126,28 +124,42 @@ EOF
 
         puts "## Deploying via git to remote=\"#{remote}\" and branch=\"#{branch}\""
 
-        # ensure that the remote branch exists in ENV["MM_ROOT"]
-        orig = Git.open(ENV["MM_ROOT"])
-        # TODO: orig.branch(branch, "#{remote}/#{branch}")
-
-        Dir.mktmpdir do |tmp|
-          # clone ENV["MM_ROOT"] to tmp (ENV["MM_ROOT"] is now "origin")
-          repo = Git.clone(ENV["MM_ROOT"], tmp)
-          repo.checkout("origin/#{branch}", :new_branch => branch)
-
-          # copy ./build/* to tmp
-          FileUtils.cp_r(Dir.glob(File.join(ENV["MM_ROOT"], "build", "*")), tmp)
-
-          # git add and commit in tmp
-          repo.add
-          repo.commit("Automated commit at #{Time.now.utc} by #{PACKAGE} #{VERSION}")
-
-          # push back into ENV["MM_ROOT"]
-          repo.push("origin", branch)
+        #check if remote is not a git url
+        unless remote =~ /\.git$/
+          remote = `git config --get remote.#{remote}.url`.chop
         end
 
-        orig.push(remote, branch)
-        orig.remote(remote).fetch
+        #if the remote name doesn't exist in the main repo
+        if remote == ''
+          puts "Can't deploy! Please add a remote with the name '#{self.deploy_options.remote}' to your repo."
+          exit
+        end
+
+        Dir.chdir('build') do
+          unless File.exists?('.git')
+            `git init`
+            `git remote add origin #{remote}`
+          else
+            #check if the remote repo has changed
+            unless remote == `git config --get remote.origin.url`.chop
+              `git remote rm origin`
+              `git remote add origin #{remote}`
+            end
+          end
+
+          `git fetch origin`
+
+          #if there is a remote branch with that name, reset to it, otherwise just create a new one
+          if `git branch -r`.split("\n").keep_if{ |r| r =~ Regexp.new(branch,true) }.count > 0
+            `git reset --hard origin/#{branch}`
+          else
+            `git checkout -b #{branch}`
+          end
+
+          `git add -A`
+          `git commit --allow-empty -am 'Automated commit at #{Time.now.utc} by #{PACKAGE} #{VERSION}'`
+          `git push -f origin #{branch}`
+        end
       end
 
       def deploy_ftp
