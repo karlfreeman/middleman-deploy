@@ -21,6 +21,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("middleman-core", [">= 3.0.0"])
 
   # Additional dependencies
-  s.add_runtime_dependency("git", "~> 1.2.0")
   s.add_runtime_dependency("ptools")
 end
