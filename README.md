@@ -64,8 +64,8 @@ Edit `config.rb`, and add:
       deploy.method = :git
     end
 
-With this default configuration, it will deploy to the "origin/gh-pages" branch of
-your current repo.
+By default this will deploy to the `gh-pages` branch on the `origin`
+remote. The `build` directory will become a git repo.
 
 #### These settings are optional.
 
@@ -73,16 +73,18 @@ To use a particular remote, add:
 
       deploy.remote = "some-other-remote-name"
 
-Default is `origin`. You can add a remote or a git url.
-Run `git remote -v` to see a list of possible remotes or add a new one first.
-If you specify a git url, be sure it ends with '.git'.
+Default is `origin`. This can be a remote name or a git url.
+
+If you use a remote name, you must first add it using `git remote
+add`. Run `git remote -v` to see a list of possible remote names. If
+you use a git url, it must end with '.git'.
 
 To use a particular branch, add:
 
       deploy.branch = "some-other-branch-name"
 
-Default is `gh-pages`. If the branch doesn't exist remote, it will be created
-for you.
+Default is `gh-pages`. This branch will be created on the remote if it
+doesn't already exist.
 
 ### Step 4c - FTP setup
 
