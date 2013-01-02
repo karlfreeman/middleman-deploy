@@ -147,11 +147,9 @@ EOF
             end
           end
 
-          `git fetch origin`
-
-          #if there is a remote branch with that name, reset to it, otherwise just create a new one
-          if `git branch -r`.split("\n").keep_if{ |r| r =~ Regexp.new(branch,true) }.count > 0
-            `git reset --hard origin/#{branch}`
+          #if there is a branch with that name, switch to it, otherwise create a new one and switch to it
+          if `git branch`.split("\n").keep_if{ |r| r =~ Regexp.new(branch,true) }.count > 0
+            `git checkout #{branch}`
           else
             `git checkout -b #{branch}`
           end
