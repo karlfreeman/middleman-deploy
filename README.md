@@ -1,4 +1,4 @@
-Middleman Delpoy -- Deploy a [middleman](http://middlemanapp.com/) built site over rsync or via git (e.g. gh-pages on github).
+Middleman Delpoy - Deploy a [middleman](http://middlemanapp.com/) built site over rsync, git (e.g. gh-pages on github) or via ftp.
 
 [![Build Status](https://secure.travis-ci.org/tvaughan/middleman-deploy.png)](http://travis-ci.org/tvaughan/middleman-deploy)
 
@@ -19,7 +19,7 @@ Middleman Delpoy -- Deploy a [middleman](http://middlemanapp.com/) built site ov
 
 Edit `Gemfile`, and add:
 
-    gem "middleman-deploy", "~>0.0.1"
+    gem "middleman-deploy", "~> 0.0.9"
 
 Then run:
 
