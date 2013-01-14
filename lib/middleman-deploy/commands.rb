@@ -177,7 +177,8 @@ EOF
         ftp.passive = true
 
         Dir.chdir('build/') do
-          Dir['**/*'].each do |f|
+          files = Dir.glob('**/*', File::FNM_DOTMATCH)
+          files.reject { |a| a =~ Regexp.new('\.$') }.each do |f|
             if File.directory?(f)
               begin
                 ftp.mkdir(f)
