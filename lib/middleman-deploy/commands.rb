@@ -92,6 +92,12 @@ EOF
           end
         end
 
+        if (options.method == :ftp)
+          if (!options.host || !options.user || !options.password || !options.path)
+            print_usage_and_die "The ftp deploy method requires host, user, password, and path to be set."
+          end
+        end
+
         options
       end
 
@@ -182,8 +188,8 @@ EOF
             if File.directory?(f)
               begin
                 ftp.mkdir(f)
+                puts "Created directory #{f}"
               rescue
-                puts "Folder '#{f}' exists. skipping..."
               end
             else
               begin
@@ -203,6 +209,7 @@ EOF
                   end
                 end
               end
+              puts "Copied #{f}"
             end
           end
         end
