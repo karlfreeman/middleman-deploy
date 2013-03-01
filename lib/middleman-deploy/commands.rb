@@ -154,7 +154,7 @@ EOF
           end
 
           #if there is a branch with that name, switch to it, otherwise create a new one and switch to it
-          if `git branch`.split("\n").keep_if{ |r| r =~ Regexp.new(branch,true) }.count > 0
+          if `git branch`.split("\n").delete_if{ |r| r =~ Regexp.new(branch,true) }.count == 0
             `git checkout #{branch}`
           else
             `git checkout -b #{branch}`
