@@ -1,4 +1,4 @@
-Middleman Delpoy - Deploy a [middleman](http://middlemanapp.com/) built site over rsync, git (e.g. gh-pages on github) or via ftp.
+Middleman Deploy - Deploy a [middleman](http://middlemanapp.com/) built site over rsync, git (e.g. gh-pages on github) or via ftp.
 
 [![Build Status](https://secure.travis-ci.org/tvaughan/middleman-deploy.png)](http://travis-ci.org/tvaughan/middleman-deploy)
 
