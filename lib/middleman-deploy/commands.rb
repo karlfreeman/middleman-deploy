@@ -73,11 +73,15 @@ end
 EOF
       end
 
+      def inst
+        ::Middleman::Application.server.inst
+      end
+
       def deploy_options
         options = nil
 
         begin
-          options = ::Middleman::Application.server.inst.options
+          options = inst.options
         rescue
           print_usage_and_die "You need to activate the deploy extension in config.rb."
         end
@@ -109,7 +113,7 @@ EOF
 
         puts "## Deploying via rsync to #{user}@#{host}:#{path} port=#{port}"
 
-        command = "rsync -avze '" + "ssh -p #{port}" + "' build/ #{user}@#{host}:#{path}"
+        command = "rsync -avze '" + "ssh -p #{port}" + "' #{self.inst.build_dir}/ #{user}@#{host}:#{path}"
 
         if options.has_key? "clean"
           clean = options.clean
@@ -141,7 +145,7 @@ EOF
           exit
         end
 
-        Dir.chdir('build') do
+        Dir.chdir(self.inst.build_dir) do
           unless File.exists?('.git')
             `git init`
             `git remote add origin #{remote}`
@@ -182,7 +186,7 @@ EOF
         ftp.chdir(path)
         ftp.passive = true
 
-        Dir.chdir('build/') do
+        Dir.chdir(self.inst.build_dir) do
           files = Dir.glob('**/*', File::FNM_DOTMATCH)
           files.reject { |a| a =~ Regexp.new('\.$') }.each do |f|
             if File.directory?(f)
