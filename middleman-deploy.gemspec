@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Tom Vaughan"]
   s.email       = ["thomas.david.vaughan@gmail.com"]
   s.homepage    = "http://tvaughan.github.com/middleman-deploy/"
-  s.summary     = %q{Deploy a middleman built site over rsync or via git (e.g. gh-pages on github).}
-  s.description = %q{Deploy a middleman built site over rsync or via git (e.g. gh-pages on github).}
+  s.summary     = %q{Deploy a middleman built site over rsync, ftp, or git (e.g. gh-pages on github).}
+  s.description = %q{Deploy a middleman built site over rsync, ftp, or git (e.g. gh-pages on github).}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
