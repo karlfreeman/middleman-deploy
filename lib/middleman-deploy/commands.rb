@@ -28,6 +28,7 @@ module Middleman
       :aliases => "-c",
       :desc => "Remove orphaned files or directories on the remote host"
       def deploy
+        Middleman::Cli::Build.new.build if self.deploy_options.force_build
         send("deploy_#{self.deploy_options.method}")
       end
 
