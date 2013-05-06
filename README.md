@@ -19,7 +19,7 @@ Middleman Deploy - Deploy a [middleman](http://middlemanapp.com/) built site ove
 
 Edit `Gemfile`, and add:
 
-    gem "middleman-deploy", "~> 0.0.11"
+    gem "middleman-deploy", "~> 0.0.12"
 
 Then run:
 
