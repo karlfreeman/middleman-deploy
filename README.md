@@ -1,21 +1,16 @@
-Middleman Deploy - Deploy a [middleman](http://middlemanapp.com/) built site over rsync, git (e.g. gh-pages on github) or via ftp.
+Middleman Deploy - Deploy a [middleman](http://middlemanapp.com/)
+built site over rsync, ftp, or git (e.g. gh-pages on github).
 
 [![Build Status](https://secure.travis-ci.org/tvaughan/middleman-deploy.png)](http://travis-ci.org/tvaughan/middleman-deploy)
 
-===
+# QUICK START
 
-## QUICK START
-
-### Step 1
-
-    gem install middleman-deploy
-
-### Step 2
+## Step 1
 
     middleman init example-site
     cd example-site
 
-### Step 3
+## Step 2
 
 Edit `Gemfile`, and add:
 
@@ -25,11 +20,11 @@ Then run:
 
     bundle install
 
-### Step 4a - Rsync setup
+## Step 3a - Rsync setup
 
 First be sure that `rsync` is installed.
 
-#### These settings are required.
+**These settings are required.**
 
 Edit `config.rb`, and add:
 
@@ -42,7 +37,7 @@ Edit `config.rb`, and add:
 
 Adjust these values accordingly.
 
-#### These settings are optional.
+**These settings are optional.**
 
 To use a particular SSH port, add:
 
@@ -56,7 +51,11 @@ To remove orphaned files or directories on the remote host, add:
 
 Default is `false`.
 
-### Step 4b - Git setup
+## Step 3b - Git setup
+
+First be sure that `git` is installed.
+
+**These settings are required.**
 
 Edit `config.rb`, and add:
 
@@ -67,7 +66,7 @@ Edit `config.rb`, and add:
 By default this will deploy to the `gh-pages` branch on the `origin`
 remote. The `build` directory will become a git repo.
 
-#### These settings are optional.
+**These settings are optional.**
 
 To use a particular remote, add:
 
@@ -86,9 +85,9 @@ To use a particular branch, add:
 Default is `gh-pages`. This branch will be created on the remote if it
 doesn't already exist.
 
-### Step 4c - FTP setup
+## Step 3c - FTP setup
 
-#### These settings are required.
+**These settings are required.**
 
 Edit `config.rb`, and add:
 
@@ -102,7 +101,7 @@ Edit `config.rb`, and add:
 
 Adjust these values accordingly.
 
-### Step 5
+## Step 4
 
     middleman build [--clean]
     middleman deploy [--clean]
@@ -113,10 +112,11 @@ To automatically run middleman-deploy after `middleman build`, add:
 
 Default is `false`.
 
-Please note that if the `--clean` or `--no-clean` option is passed to
-`middleman build` it will not be passed to `middleman deploy`. For now
-only the value of `deploy.clean` in `config.rb` will be used.
+## NOTES
 
-### NOTES
+When the `--clean` or `--no-clean` option is passed to `middleman
+build` it will not be passed to `middleman deploy`. For now only the
+value of `deploy.clean` in `config.rb` will be used.
 
-Inspired by the rsync task in [Octopress](https://github.com/imathis/octopress).
+Inspired by the rsync task in
+[Octopress](https://github.com/imathis/octopress).
