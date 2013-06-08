@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
 
   # Additional dependencies
   s.add_runtime_dependency("ptools")
+  s.add_runtime_dependency("net-sftp")
 end
