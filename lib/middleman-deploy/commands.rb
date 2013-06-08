@@ -220,6 +220,45 @@ EOF
         ftp.close
       end
 
+      def deploy_sftp
+        require 'net/sftp'
+        require 'ptools'
+      
+        host = self.deploy_options.host
+        user = self.deploy_options.user
+        pass = self.deploy_options.password
+        path = self.deploy_options.path
+      
+        puts "## Deploying via sftp to #{user}@#{host}:#{path}"
+        
+        Net::SFTP.start(host, user, :password => pass) do |sftp|
+          sftp.mkdir(path)
+          Dir.chdir(self.inst.build_dir) do
+            files = Dir.glob('**/*', File::FNM_DOTMATCH)
+            files.reject { |a| a =~ Regexp.new('\.$') }.each do |f|
+              if File.directory?(f)
+                begin
+                  sftp.mkdir("#{path}/#{f}")
+                  puts "Created directory #{f}"
+                rescue
+                end
+              else
+                begin
+                  sftp.upload(f, "#{path}/#{f}")
+                rescue Exception => e
+                  reply = e.message
+                  err_code = reply[0,3].to_i
+                  if err_code == 550
+                    sftp.upload(f, "#{path}/#{f}")
+                  end
+                end
+                puts "Copied #{f}"
+              end
+            end
+          end
+        end
+      end
+
     end
 
     # Alias "d" to "deploy"
