@@ -27,8 +27,17 @@ module Middleman
       :type => :boolean,
       :aliases => "-c",
       :desc => "Remove orphaned files or directories on the remote host"
+      method_option "build_before",
+      :type => :boolean,
+      :aliases => "-b",
+      :desc => "Run `middleman build` before the deploy step"
       def deploy
-        Middleman::Cli::Build.new.build if self.deploy_options.force_build
+        if options.has_key? "build_before"
+          build_before = options.build_before
+        else
+          build_before = self.deploy_options.build_before
+        end
+        Middleman::Cli::Build.new.build if build_before
         send("deploy_#{self.deploy_options.method}")
       end
 

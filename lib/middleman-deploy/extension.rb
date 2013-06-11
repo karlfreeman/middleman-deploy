@@ -5,7 +5,7 @@ require "middleman-core"
 module Middleman
   module Deploy
 
-    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :force_build); end
+    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :build_before); end
 
     class << self
 
@@ -22,7 +22,7 @@ module Middleman
         options.remote ||= "origin"
         options.branch ||= "gh-pages"
 
-        options.force_build ||= false
+        options.build_before ||= false
 
         @@options = options
 

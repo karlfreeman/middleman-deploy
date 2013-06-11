@@ -120,7 +120,13 @@ Adjust these values accordingly.
 ## Step 4
 
     middleman build [--clean]
-    middleman deploy [--clean]
+    middleman deploy [--clean --build-before]
+
+To run `middleman build` before `middleman deploy`, add:
+
+    deploy.build_before = true
+
+Default is `false`.
 
 ## NOTES
 
