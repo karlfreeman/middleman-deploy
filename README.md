@@ -101,6 +101,22 @@ Edit `config.rb`, and add:
 
 Adjust these values accordingly.
 
+## Step 3d - SFTP setup
+
+**These settings are required.**
+
+Edit `config.rb`, and add:
+
+    activate :deploy do |deploy|
+      deploy.method = :sftp
+      deploy.host = "ftp.example.com"
+      deploy.user = "tvaughan"
+      deploy.password = "secret"
+      deploy.path = "/srv/www/site"
+    end
+
+Adjust these values accordingly.
+
 ## Step 4
 
     middleman build [--clean]
