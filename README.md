@@ -122,12 +122,6 @@ Adjust these values accordingly.
     middleman build [--clean]
     middleman deploy [--clean]
 
-To automatically run middleman-deploy after `middleman build`, add:
-
-      deploy.after_build = true
-
-Default is `false`.
-
 ## NOTES
 
 When the `--clean` or `--no-clean` option is passed to `middleman
