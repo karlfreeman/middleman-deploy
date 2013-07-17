@@ -37,7 +37,11 @@ module Middleman
         else
           build_before = self.deploy_options.build_before
         end
-        Middleman::Cli::Build.new.build if build_before
+        if build_before
+          # http://forum.middlemanapp.com/t/problem-with-the-build-task-in-an-extension
+          builder = ::Middleman::Cli::Build.new(args=[], options={:instrument=>false})
+          builder.build
+        end
         send("deploy_#{self.deploy_options.method}")
       end
 
