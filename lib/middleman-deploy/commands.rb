@@ -22,7 +22,7 @@ module Middleman
         true
       end
 
-      desc "deploy", "Deploy build directory to a remote host via rsync or git"
+      desc "deploy [options]", Middleman::Deploy::TAGLINE
       method_option "clean",
       :type => :boolean,
       :aliases => "-c",
@@ -75,9 +75,9 @@ activate :deploy do |deploy|
   deploy.branch = "some-other-branch-name"
 end
 
-# To deploy the build directory to a remote host via ftp:
+# To deploy the build directory to a remote host via ftp or sftp:
 activate :deploy do |deploy|
-  deploy.method = :ftp
+  deploy.method = :ftp or :sftp
   # host, user, passwword and path *must* be set
   deploy.host = "ftp.example.com"
   deploy.user = "tvaughan"
@@ -110,9 +110,9 @@ EOF
           end
         end
 
-        if (options.method == :ftp)
+        if (options.method == :ftp || options.method == :sftp)
           if (!options.host || !options.user || !options.password || !options.path)
-            print_usage_and_die "The ftp deploy method requires host, user, password, and path to be set."
+            print_usage_and_die "The ftp and sftp deploy methods requires host, user, password, and path to be set."
           end
         end
 

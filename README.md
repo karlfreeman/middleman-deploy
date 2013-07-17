@@ -1,5 +1,5 @@
 Middleman Deploy - Deploy a [middleman](http://middlemanapp.com/)
-built site over rsync, ftp, or git (e.g. gh-pages on github).
+built site over rsync, ftp, sftp, or git (e.g. gh-pages on github).
 
 [![Build Status](https://secure.travis-ci.org/tvaughan/middleman-deploy.png)](http://travis-ci.org/tvaughan/middleman-deploy)
 
