@@ -109,7 +109,7 @@ Edit `config.rb`, and add:
 
     activate :deploy do |deploy|
       deploy.method = :sftp
-      deploy.host = "ftp.example.com"
+      deploy.host = "sftp.example.com"
       deploy.user = "tvaughan"
       deploy.password = "secret"
       deploy.path = "/srv/www/site"

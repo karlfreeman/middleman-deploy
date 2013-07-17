@@ -47,7 +47,7 @@ module Middleman
       def print_usage_and_die(message)
         raise Error, "ERROR: " + message + "\n" + <<EOF
 
-You should follow one of the three examples below to setup the deploy
+You should follow one of the four examples below to setup the deploy
 extension in config.rb.
 
 # To deploy the build directory to a remote host via rsync:
@@ -72,11 +72,21 @@ activate :deploy do |deploy|
   deploy.branch = "some-other-branch-name"
 end
 
-# To deploy the build directory to a remote host via ftp or sftp:
+# To deploy the build directory to a remote host via ftp:
 activate :deploy do |deploy|
-  deploy.method = :ftp or :sftp
+  deploy.method = :ftp
   # host, user, passwword and path *must* be set
   deploy.host = "ftp.example.com"
+  deploy.user = "tvaughan"
+  deploy.password = "secret"
+  deploy.path = "/srv/www/site"
+end
+
+# To deploy the build directory to a remote host via sftp:
+activate :deploy do |deploy|
+  deploy.method = :sftp
+  # host, user, passwword and path *must* be set
+  deploy.host = "sftp.example.com"
   deploy.user = "tvaughan"
   deploy.password = "secret"
   deploy.path = "/srv/www/site"
@@ -101,15 +111,14 @@ EOF
           print_usage_and_die "The deploy extension requires you to set a method."
         end
 
-        if (options.method == :rsync)
+        case options.method
+        when :rsync
           if (!options.host || !options.user || !options.path)
             print_usage_and_die "The rsync deploy method requires host, user, and path to be set."
           end
-        end
-
-        if (options.method == :ftp || options.method == :sftp)
+        when :ftp, :sftp
           if (!options.host || !options.user || !options.password || !options.path)
-            print_usage_and_die "The ftp and sftp deploy methods requires host, user, password, and path to be set."
+            print_usage_and_die "The #{options.method} method requires host, user, password, and path to be set."
           end
         end
 
