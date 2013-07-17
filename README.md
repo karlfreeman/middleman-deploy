@@ -143,6 +143,12 @@ Default is `false`.
    made sense. `deploy` was added to the `after_build` hook simply
    because it was available.
 
+## THANKS
+
+A **BIG** thanks to
+[everyone who has contributed](https://github.com/tvaughan/middleman-deploy/graphs/contributors)!
+Almost all pull requests are accepted.
+
 ## NOTES
 
 Inspired by the rsync task in
