@@ -138,6 +138,11 @@ Default is `false`.
    are specific to a deploy method will only be available in
    `config.rb`.
 
+   * Removed `deploy` from the `after_build` hook. This caused a
+   `deploy` to be run each time `build` was called. This workflow never
+   made sense. `deploy` was added to the `after_build` hook simply
+   because it was available.
+
 ## NOTES
 
 Inspired by the rsync task in
