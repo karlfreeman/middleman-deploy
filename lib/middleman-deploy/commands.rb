@@ -23,14 +23,11 @@ module Middleman
       end
 
       desc "deploy [options]", Middleman::Deploy::TAGLINE
-      method_option "clean",
-      :type => :boolean,
-      :aliases => "-c",
-      :desc => "Remove orphaned files or directories on the remote host"
       method_option "build_before",
       :type => :boolean,
       :aliases => "-b",
       :desc => "Run `middleman build` before the deploy step"
+
       def deploy
         if options.has_key? "build_before"
           build_before = options.build_before
@@ -129,13 +126,7 @@ EOF
 
         command = "rsync -avze '" + "ssh -p #{port}" + "' #{self.inst.build_dir}/ #{user}@#{host}:#{path}"
 
-        if options.has_key? "clean"
-          clean = options.clean
-        else
-          clean = self.deploy_options.clean
-        end
-
-        if clean
+        if self.deploy_options.clean
           command += " --delete"
         end
 

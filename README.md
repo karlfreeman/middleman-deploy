@@ -120,7 +120,7 @@ Adjust these values accordingly.
 ## Step 4
 
     middleman build [--clean]
-    middleman deploy [--clean --build-before]
+    middleman deploy [--build-before]
 
 To run `middleman build` before `middleman deploy`, add:
 
@@ -128,11 +128,17 @@ To run `middleman build` before `middleman deploy`, add:
 
 Default is `false`.
 
-## NOTES
+## BREAKING CHANGES
 
-When the `--clean` or `--no-clean` option is passed to `middleman
-build` it will not be passed to `middleman deploy`. For now only the
-value of `deploy.clean` in `config.rb` will be used.
+ * v0.1.0
+
+   * Removed the `--clean` command-line option. This option only applied
+   to the rsync deploy method. The idea going forward is that
+   command-line options must apply to all deploy methods. Options that
+   are specific to a deploy method will only be available in
+   `config.rb`.
+
+## NOTES
 
 Inspired by the rsync task in
 [Octopress](https://github.com/imathis/octopress).
