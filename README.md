@@ -14,7 +14,7 @@ built site over rsync, ftp, sftp, or git (e.g. gh-pages on github).
 
 Edit `Gemfile`, and add:
 
-    gem "middleman-deploy", "~> 0.0.12"
+    gem "middleman-deploy", ">= 0.1.0"
 
 Then run:
 
