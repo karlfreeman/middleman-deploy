@@ -237,14 +237,14 @@ EOF
       def deploy_sftp
         require 'net/sftp'
         require 'ptools'
-      
+
         host = self.deploy_options.host
         user = self.deploy_options.user
         pass = self.deploy_options.password
         path = self.deploy_options.path
-      
+
         puts "## Deploying via sftp to #{user}@#{host}:#{path}"
-        
+
         Net::SFTP.start(host, user, :password => pass) do |sftp|
           sftp.mkdir(path)
           Dir.chdir(self.inst.build_dir) do
