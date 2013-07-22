@@ -10,6 +10,7 @@ group :development do
 end
 
 group :test do
+  gem "compass"
   gem "cucumber"
   gem "fivemat"
   gem "aruba"
