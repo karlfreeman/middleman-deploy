@@ -1,155 +1,124 @@
-Middleman Deploy - Deploy a [middleman](http://middlemanapp.com/)
-built site over rsync, ftp, sftp, or git (e.g. gh-pages on github).
+# middleman-deploy [![Build Status](https://travis-ci.org/tvaughan/middleman-deploy.png?branch=master)](https://travis-ci.org/tvaughan/middleman-deploy)
 
-[![Build Status](https://secure.travis-ci.org/tvaughan/middleman-deploy.png)](http://travis-ci.org/tvaughan/middleman-deploy)
+Deploys a [middleman](http://middlemanapp.com/) built site via **rsync**,
+**ftp**, **sftp**, or **git** (e.g. gh-pages on github).
 
-# QUICK START
+## Installation
 
-## Step 1
+Add this to the Gemfile of the repository of your middleman site:
 
-    middleman init example-site
-    cd example-site
+```ruby
+gem "middleman-deploy"
+```
 
-## Step 2
+and run `bundle install`.
 
-Edit `Gemfile`, and add:
+## Usage
 
-    gem "middleman-deploy", ">= 0.1.0"
+```
+$ middleman build [--clean]
+$ middleman deploy [--build-before]
+```
 
-Then run:
+To automatically run `middleman build` during `middleman deploy`, turn on the
+`build_before` option while activating the deploy extension:
 
-    bundle install
+```ruby
+activate :deploy do |deploy|
+  # ...
+  deploy.build_before = true # default: false
+end
+```
 
-## Step 3a - Rsync setup
+## Possible Configurations
 
-First be sure that `rsync` is installed.
+Middleman-deploy can deploy a site via rsync, ftp, sftp, or git.
 
-**These settings are required.**
+### rsync
 
-Edit `config.rb`, and add:
+Make sure that `rsync` is installed, and activate the extension by adding the
+following to `config.rb`:
 
-    activate :deploy do |deploy|
-      deploy.method = :rsync
-      deploy.user = "tvaughan"
-      deploy.host = "www.example.com"
-      deploy.path = "/srv/www/site"
-    end
+```ruby
+activate :deploy do |deploy|
+  deploy.method = :rsync
+  deploy.user   = "tvaughan"
+  deploy.host   = "www.example.com"
+  deploy.path   = "/srv/www/site"
+  # Optional Settings
+  # deploy.port  = 5309 # ssh port, default: 22
+  # deploy.clean = true # remove orphaned files on remote host, default: false
+end
+```
 
-Adjust these values accordingly.
+### Git (e.g. GitHub Pages)
 
-**These settings are optional.**
+Make sure that `git` is installed, and activate the extension by adding the
+following to `config.rb`:
 
-To use a particular SSH port, add:
+```ruby
+activate :deploy do |deploy|
+  deploy.method = :git
+  # Optional Settings
+  # deploy.remote = "custom-remote" # remote name or git url, default: origin
+  # deploy.branch = "custom-branch" # default: gh-pages
+end
+```
 
-      deploy.port = 5309
+If you use a remote name, you must first add it using `git remote add`. Run
+`git remote -v` to see a list of possible remote names. If you use a git url,
+it must end with '.git'.
 
-Default is `22`.
+Afterwards, the `build` directory will become a git repo. This branch will be
+created on the remote if it doesn't already exist.
 
-To remove orphaned files or directories on the remote host, add:
+### FTP
 
-      deploy.clean = true
+Activate the extension by adding the following to `config.rb`:
 
-Default is `false`.
+```ruby
+activate :deploy do |deploy|
+  deploy.method   = :ftp
+  deploy.host     = "ftp.example.com"
+  deploy.user     = "tvaughan"
+  deploy.password = "secret"
+  deploy.path     = "/srv/www/site"
+end
+```
 
-## Step 3b - Git setup
+### SFTP
 
-First be sure that `git` is installed.
+Activate the extension by adding the following to `config.rb`:
 
-**These settings are required.**
+```ruby
+activate :deploy do |deploy|
+  deploy.method   = :sftp
+  deploy.host     = "sftp.example.com"
+  deploy.user     = "tvaughan"
+  deploy.password = "secret"
+  deploy.path     = "/srv/www/site"
+end
+```
 
-Edit `config.rb`, and add:
+## Breaking Changes
 
-    activate :deploy do |deploy|
-      deploy.method = :git
-    end
+* `v0.1.0`
+    - Removed the `--clean` command-line option. This option only applied to
+      the rsync deploy method. The idea going forward is that command-line
+      options must apply to all deploy methods. Options that are specific to a
+      deploy method will only be available in `config.rb`.
+    - Removed `deploy` from the `after_build` hook. This caused a `deploy` to
+      be run each time `build` was called. This workflow never made
+      sense. `deploy` was added to the `after_build` hook simply because it
+      was available.
 
-By default this will deploy to the `gh-pages` branch on the `origin`
-remote. The `build` directory will become a git repo.
-
-**These settings are optional.**
-
-To use a particular remote, add:
-
-      deploy.remote = "some-other-remote-name"
-
-Default is `origin`. This can be a remote name or a git url.
-
-If you use a remote name, you must first add it using `git remote
-add`. Run `git remote -v` to see a list of possible remote names. If
-you use a git url, it must end with '.git'.
-
-To use a particular branch, add:
-
-      deploy.branch = "some-other-branch-name"
-
-Default is `gh-pages`. This branch will be created on the remote if it
-doesn't already exist.
-
-## Step 3c - FTP setup
-
-**These settings are required.**
-
-Edit `config.rb`, and add:
-
-    activate :deploy do |deploy|
-      deploy.method = :ftp
-      deploy.host = "ftp.example.com"
-      deploy.user = "tvaughan"
-      deploy.password = "secret"
-      deploy.path = "/srv/www/site"
-    end
-
-Adjust these values accordingly.
-
-## Step 3d - SFTP setup
-
-**These settings are required.**
-
-Edit `config.rb`, and add:
-
-    activate :deploy do |deploy|
-      deploy.method = :sftp
-      deploy.host = "sftp.example.com"
-      deploy.user = "tvaughan"
-      deploy.password = "secret"
-      deploy.path = "/srv/www/site"
-    end
-
-Adjust these values accordingly.
-
-## Step 4
-
-    middleman build [--clean]
-    middleman deploy [--build-before]
-
-To run `middleman build` before `middleman deploy`, add:
-
-    deploy.build_before = true
-
-Default is `false`.
-
-## BREAKING CHANGES
-
- * v0.1.0
-
-   * Removed the `--clean` command-line option. This option only applied
-   to the rsync deploy method. The idea going forward is that
-   command-line options must apply to all deploy methods. Options that
-   are specific to a deploy method will only be available in
-   `config.rb`.
-
-   * Removed `deploy` from the `after_build` hook. This caused a
-   `deploy` to be run each time `build` was called. This workflow never
-   made sense. `deploy` was added to the `after_build` hook simply
-   because it was available.
-
-## THANKS
+## Thanks!
 
 A **BIG** thanks to
 [everyone who has contributed](https://github.com/tvaughan/middleman-deploy/graphs/contributors)!
 Almost all pull requests are accepted.
 
-## NOTES
+## Other
 
 Inspired by the rsync task in
 [Octopress](https://github.com/imathis/octopress).
