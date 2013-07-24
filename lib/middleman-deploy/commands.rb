@@ -36,8 +36,7 @@ module Middleman
         end
         if build_before
           # http://forum.middlemanapp.com/t/problem-with-the-build-task-in-an-extension
-          builder = ::Middleman::Cli::Build.new(args=[], options={:instrument=>false})
-          builder.build
+          run("middleman build") || exit(1)
         end
         send("deploy_#{self.deploy_options.method}")
       end
