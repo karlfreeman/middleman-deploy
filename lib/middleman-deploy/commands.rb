@@ -112,8 +112,8 @@ EOF
 
         case options.method
         when :rsync
-          if (!options.host || !options.user || !options.path)
-            print_usage_and_die "The rsync deploy method requires host, user, and path to be set."
+          if (!options.host || !options.path)
+            print_usage_and_die "The rsync deploy method requires host and path to be set."
           end
         when :ftp, :sftp
           if (!options.host || !options.user || !options.password || !options.path)
@@ -129,10 +129,11 @@ EOF
         port = self.deploy_options.port
         user = self.deploy_options.user
         path = self.deploy_options.path
+        url = [[user, host].compact.join("@"), path].join(":")
 
-        puts "## Deploying via rsync to #{user}@#{host}:#{path} port=#{port}"
+        puts "## Deploying via rsync to #{url} port=#{port}"
 
-        command = "rsync -avze '" + "ssh -p #{port}" + "' #{self.inst.build_dir}/ #{user}@#{host}:#{path}"
+        command = "rsync -avze 'ssh -p #{port}' #{self.inst.build_dir}/ #{url}"
 
         if self.deploy_options.clean
           command += " --delete"
