@@ -46,50 +46,10 @@ module Middleman
       def print_usage_and_die(message)
         raise Error, "ERROR: " + message + "\n" + <<EOF
 
-You should follow one of the four examples below to setup the deploy
-extension in config.rb.
+You should follow one of the possible deploy configurations as described in
+the README to setup the deploy extension in config.rb.
 
-# To deploy the build directory to a remote host via rsync:
-activate :deploy do |deploy|
-  deploy.method = :rsync
-  # host, user, and path *must* be set
-  deploy.user = "tvaughan"
-  deploy.host = "www.example.com"
-  deploy.path = "/srv/www/site"
-  # clean is optional (default is false)
-  deploy.clean = true
-end
-
-# To deploy to a remote branch via git (e.g. gh-pages on github):
-activate :deploy do |deploy|
-  deploy.method = :git
-  # remote is optional (default is "origin")
-  # run `git remote -v` to see a list of possible remotes
-  deploy.remote = "some-other-remote-name"
-  # branch is optional (default is "gh-pages")
-  # run `git branch -a` to see a list of possible branches
-  deploy.branch = "some-other-branch-name"
-end
-
-# To deploy the build directory to a remote host via ftp:
-activate :deploy do |deploy|
-  deploy.method = :ftp
-  # host, user, passwword and path *must* be set
-  deploy.host = "ftp.example.com"
-  deploy.user = "tvaughan"
-  deploy.password = "secret"
-  deploy.path = "/srv/www/site"
-end
-
-# To deploy the build directory to a remote host via sftp:
-activate :deploy do |deploy|
-  deploy.method = :sftp
-  # host, user, passwword and path *must* be set
-  deploy.host = "sftp.example.com"
-  deploy.user = "tvaughan"
-  deploy.password = "secret"
-  deploy.path = "/srv/www/site"
-end
+https://github.com/tvaughan/middleman-deploy#possible-configurations
 EOF
       end
 
