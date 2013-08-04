@@ -42,7 +42,7 @@ following to `config.rb`:
 ```ruby
 activate :deploy do |deploy|
   deploy.method = :rsync
-  deploy.user   = "tvaughan"
+  deploy.user   = "tvaughan" # defaults to $USER or values in ~/.ssh/config
   deploy.host   = "www.example.com"
   deploy.path   = "/srv/www/site"
   # Optional Settings
