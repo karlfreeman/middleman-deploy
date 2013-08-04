@@ -3,9 +3,6 @@ require "middleman-core/cli"
 require "middleman-deploy/extension"
 require "middleman-deploy/pkg-info"
 
-PACKAGE = "#{Middleman::Deploy::PACKAGE}"
-VERSION = "#{Middleman::Deploy::VERSION}"
-
 module Middleman
   module Cli
 
@@ -178,7 +175,7 @@ EOF
           end
 
           `git add -A`
-          `git commit --allow-empty -am 'Automated commit at #{Time.now.utc} by #{PACKAGE} #{VERSION}'`
+          `git commit --allow-empty -am 'Automated commit at #{Time.now.utc} by #{Middleman::Deploy::PACKAGE} #{Middleman::Deploy::VERSION}'`
           `git push -f origin #{branch}`
         end
       end
