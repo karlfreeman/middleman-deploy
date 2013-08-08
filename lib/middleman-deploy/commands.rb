@@ -49,10 +49,11 @@ extension in config.rb.
 # To deploy the build directory to a remote host via rsync:
 activate :deploy do |deploy|
   deploy.method = :rsync
-  # host, user, and path *must* be set
-  deploy.user = "tvaughan"
+  # host and path *must* be set
   deploy.host = "www.example.com"
   deploy.path = "/srv/www/site"
+  # user is optional (no default)
+  deploy.user = "tvaughan"
   # clean is optional (default is false)
   deploy.clean = true
 end
@@ -109,8 +110,8 @@ EOF
 
         case options.method
         when :rsync
-          if (!options.host || !options.user || !options.path)
-            print_usage_and_die "The rsync deploy method requires host, user, and path to be set."
+          if (!options.host || !options.path)
+            print_usage_and_die "The rsync deploy method requires host and path to be set."
           end
         when :ftp, :sftp
           if (!options.host || !options.user || !options.password || !options.path)
@@ -124,12 +125,17 @@ EOF
       def deploy_rsync
         host = self.deploy_options.host
         port = self.deploy_options.port
-        user = self.deploy_options.user
         path = self.deploy_options.path
 
-        puts "## Deploying via rsync to #{user}@#{host}:#{path} port=#{port}"
+        # Append "@" to user if provided.
+        user = self.deploy_options.user
+        user = "#{user}@" if user && !user.empty?
 
-        command = "rsync -avze '" + "ssh -p #{port}" + "' #{self.inst.build_dir}/ #{user}@#{host}:#{path}"
+        dest_url = "#{user}#{host}:#{path}"
+
+        puts "## Deploying via rsync to #{dest_url} port=#{port}"
+
+        command = "rsync -avze '" + "ssh -p #{port}" + "' #{self.inst.build_dir}/ #{dest_url}"
 
         if self.deploy_options.clean
           command += " --delete"

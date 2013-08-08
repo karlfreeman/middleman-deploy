@@ -42,10 +42,10 @@ following to `config.rb`:
 ```ruby
 activate :deploy do |deploy|
   deploy.method = :rsync
-  deploy.user   = "tvaughan"
   deploy.host   = "www.example.com"
   deploy.path   = "/srv/www/site"
   # Optional Settings
+  # deploy.user  = "tvaughan" # no default
   # deploy.port  = 5309 # ssh port, default: 22
   # deploy.clean = true # remove orphaned files on remote host, default: false
 end
