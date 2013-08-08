@@ -17,8 +17,11 @@ module Middleman
         options = Options.new(options_hash)
         yield options if block_given?
 
+        # Default options for the rsync method.
         options.port ||= 22
         options.clean ||= false
+
+        # Default options for the git method.
         options.remote ||= "origin"
         options.branch ||= "gh-pages"
 
