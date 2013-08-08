@@ -54,6 +54,8 @@ activate :deploy do |deploy|
   deploy.path = "/srv/www/site"
   # user is optional (no default)
   deploy.user = "tvaughan"
+  # port is optional (default is 22)
+  deploy.port  = 5309
   # clean is optional (default is false)
   deploy.clean = true
 end
