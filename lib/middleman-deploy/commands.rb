@@ -102,7 +102,7 @@ EOF
 
         begin
           options = inst.options
-        rescue
+        rescue NoMethodError
           print_usage_and_die "You need to activate the deploy extension in config.rb."
         end
 
