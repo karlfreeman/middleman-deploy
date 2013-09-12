@@ -115,9 +115,13 @@ EOF
           if (!options.host || !options.path)
             print_usage_and_die "The rsync deploy method requires host and path to be set."
           end
-        when :ftp, :sftp
+        when :ftp
           if (!options.host || !options.user || !options.password || !options.path)
-            print_usage_and_die "The #{options.method} method requires host, user, password, and path to be set."
+            print_usage_and_die "The ftp deploy method requires host, user, password, and path to be set."
+          end
+        when :sftp
+          if (!options.host || !options.user || !options.path)
+            print_usage_and_die "The sftp deploy method requires host, user and path to be set."
           end
         end
 
