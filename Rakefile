@@ -11,25 +11,4 @@ require 'rake/clean'
 
 task :test => ["cucumber"]
 
-require "middleman-deploy/pkg-info"
-
-PACKAGE = "#{Middleman::Deploy::PACKAGE}"
-VERSION = "#{Middleman::Deploy::VERSION}"
-
-task :package do
-  system "gem build #{PACKAGE}.gemspec"
-end
-
-task :install => :package do
-  Dir.chdir("pkg") do
-    system "gem install #{PACKAGE}-#{VERSION}"
-  end
-end
-
-task :release => :package do
-  Dir.chdir("pkg") do
-    system "gem push #{PACKAGE}-#{VERSION}"
-  end
-end
-
 task :default => :test
