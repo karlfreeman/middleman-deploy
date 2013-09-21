@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Tom Vaughan"]
   s.email       = ["thomas.david.vaughan@gmail.com"]
-  s.homepage    = "http://tvaughan.github.io/middleman-deploy/"
+  s.homepage    = "http://github.com/tvaughan/middleman-deploy"
   s.summary     = Middleman::Deploy::TAGLINE
   s.description = Middleman::Deploy::TAGLINE
   s.license     = "MIT"
