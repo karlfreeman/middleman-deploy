@@ -1,4 +1,4 @@
-# middleman-deploy [![Build Status](https://travis-ci.org/tvaughan/middleman-deploy.png?branch=master)](https://travis-ci.org/tvaughan/middleman-deploy)
+# middleman-deploy [![Gem Version](https://badge.fury.io/rb/middleman-deploy.png)](http://badge.fury.io/rb/middleman-deploy) [![Build Status](https://travis-ci.org/tvaughan/middleman-deploy.png?branch=master)](https://travis-ci.org/tvaughan/middleman-deploy)
 
 Deploys a [middleman](http://middlemanapp.com/) built site via **rsync**,
 **ftp**, **sftp**, or **git** (e.g. gh-pages on github).
