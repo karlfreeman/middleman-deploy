@@ -111,17 +111,13 @@ EOF
         end
 
         case options.method
-        when :rsync
+        when :rsync, :sftp
           if (!options.host || !options.path)
-            print_usage_and_die "The rsync deploy method requires host and path to be set."
+            print_usage_and_die "The #{options.method} method requires host and path to be set."
           end
         when :ftp
           if (!options.host || !options.user || !options.password || !options.path)
             print_usage_and_die "The ftp deploy method requires host, user, password, and path to be set."
-          end
-        when :sftp
-          if (!options.host || !options.user || !options.path)
-            print_usage_and_die "The sftp deploy method requires host, user and path to be set."
           end
         end
 
@@ -253,6 +249,7 @@ EOF
 
         puts "## Deploying via sftp to #{user}@#{host}:#{path}"
 
+        # `nil` is a valid value for user and/or pass.
         Net::SFTP.start(host, user, :password => pass) do |sftp|
           sftp.mkdir(path)
           Dir.chdir(self.inst.build_dir) do
