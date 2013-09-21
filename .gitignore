@@ -1,2 +1,8 @@
-Gemfile.lock
-coverage
+# Ignore bundler lock file
+/Gemfile.lock
+
+# Ignore pkg folder
+/pkg
+
+# Ignore coverage folder
+/coverage
