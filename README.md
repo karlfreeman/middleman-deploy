@@ -80,9 +80,9 @@ Activate the extension by adding the following to `config.rb`:
 activate :deploy do |deploy|
   deploy.method   = :ftp
   deploy.host     = "ftp.example.com"
+  deploy.path     = "/srv/www/site"
   deploy.user     = "tvaughan"
   deploy.password = "secret"
-  deploy.path     = "/srv/www/site"
 end
 ```
 
@@ -94,9 +94,10 @@ Activate the extension by adding the following to `config.rb`:
 activate :deploy do |deploy|
   deploy.method   = :sftp
   deploy.host     = "sftp.example.com"
-  deploy.user     = "tvaughan"
-  deploy.password = "secret"
   deploy.path     = "/srv/www/site"
+  # Optional Settings
+  # deploy.user     = "tvaughan" # no default
+  # deploy.password = "secret" # no default
 end
 ```
 

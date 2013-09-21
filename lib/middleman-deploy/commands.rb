@@ -76,9 +76,9 @@ activate :deploy do |deploy|
   deploy.method = :ftp
   # host, user, passwword and path *must* be set
   deploy.host = "ftp.example.com"
+  deploy.path = "/srv/www/site"
   deploy.user = "tvaughan"
   deploy.password = "secret"
-  deploy.path = "/srv/www/site"
 end
 
 # To deploy the build directory to a remote host via sftp:
@@ -86,9 +86,11 @@ activate :deploy do |deploy|
   deploy.method = :sftp
   # host, user, passwword and path *must* be set
   deploy.host = "sftp.example.com"
-  deploy.user = "tvaughan"
-  deploy.password = "secret"
   deploy.path = "/srv/www/site"
+  # user is optional (no default)
+  deploy.user = "tvaughan"
+  # password is optional (no default)
+  deploy.password = "secret"
 end
 EOF
       end
@@ -117,7 +119,7 @@ EOF
           end
         when :ftp
           if (!options.host || !options.user || !options.password || !options.path)
-            print_usage_and_die "The ftp deploy method requires host, user, password, and path to be set."
+            print_usage_and_die "The ftp deploy method requires host, path, user, and password to be set."
           end
         end
 
