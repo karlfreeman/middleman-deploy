@@ -185,6 +185,7 @@ EOF
           end
 
           `git add -A`
+          # '"message"' double quotes to fix windows issue
           `git commit --allow-empty -am '"Automated commit at #{Time.now.utc} by #{Middleman::Deploy::PACKAGE} #{Middleman::Deploy::VERSION}"'`
           `git push -f origin #{branch}`
         end
