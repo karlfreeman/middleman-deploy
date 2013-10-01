@@ -185,7 +185,7 @@ EOF
           end
 
           `git add -A`
-          `git commit --allow-empty -am 'Automated commit at #{Time.now.utc} by #{Middleman::Deploy::PACKAGE} #{Middleman::Deploy::VERSION}'`
+          `git commit --allow-empty -am '"Automated commit at #{Time.now.utc} by #{Middleman::Deploy::PACKAGE} #{Middleman::Deploy::VERSION}"'`
           `git push -f origin #{branch}`
         end
       end
