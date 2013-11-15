@@ -91,6 +91,8 @@ activate :deploy do |deploy|
   deploy.user = "tvaughan"
   # password is optional (no default)
   deploy.password = "secret"
+  # ssh key file path is optional (no default)
+  deploy.key_path = "path/to/key.pem"
 end
 EOF
       end
@@ -249,11 +251,12 @@ EOF
         user = self.deploy_options.user
         pass = self.deploy_options.password
         path = self.deploy_options.path
+        keys = self.deploy_options.key_path
 
         puts "## Deploying via sftp to #{user}@#{host}:#{path}"
 
         # `nil` is a valid value for user and/or pass.
-        Net::SFTP.start(host, user, :password => pass) do |sftp|
+        Net::SFTP.start(host, user, :password => pass, :keys => keys) do |sftp|
           sftp.mkdir(path)
           Dir.chdir(self.inst.build_dir) do
             files = Dir.glob('**/*', File::FNM_DOTMATCH)

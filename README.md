@@ -98,6 +98,7 @@ activate :deploy do |deploy|
   # Optional Settings
   # deploy.user     = "tvaughan" # no default
   # deploy.password = "secret" # no default
+  # deploy.key_path = "path/to/private.pem" # no default
 end
 ```
 
