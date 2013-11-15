@@ -5,7 +5,7 @@ require "middleman-core"
 module Middleman
   module Deploy
 
-    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :build_before); end
+    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :key_path, :clean, :remote, :branch, :build_before); end
 
     class << self
 
