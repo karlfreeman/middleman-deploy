@@ -34,6 +34,8 @@ end
 
 Middleman-deploy can deploy a site via rsync, ftp, sftp, or git.
 
+Checkout [the wiki](https://github.com/tvaughan/middleman-deploy/wiki/_pages) for advanced set-up options.
+
 ### rsync
 
 Make sure that `rsync` is installed, and activate the extension by adding the
