@@ -139,7 +139,9 @@ EOF
 
         puts "## Deploying via rsync to #{dest_url} port=#{port}"
 
-        command = "rsync -avze '" + "ssh -p #{port}" + "' #{self.inst.build_dir}/ #{dest_url}"
+        flags = !self.deploy_options.flags ? '-avze' : self.deploy_options.flags
+
+        command = "rsync " + flags + " '" + "ssh -p #{port}" + "' #{self.inst.build_dir}/ #{dest_url}"
 
         if self.deploy_options.clean
           command += " --delete"
