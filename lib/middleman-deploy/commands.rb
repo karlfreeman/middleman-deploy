@@ -58,6 +58,8 @@ activate :deploy do |deploy|
   deploy.port  = 5309
   # clean is optional (default is false)
   deploy.clean = true
+  # flags is optional (default is -avze)
+  deploy.flags = "-rltgoDvzO --no-p --del -e"
 end
 
 # To deploy to a remote branch via git (e.g. gh-pages on github):
