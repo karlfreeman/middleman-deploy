@@ -5,7 +5,7 @@ require "middleman-core"
 module Middleman
   module Deploy
 
-    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :build_before, :flags); end
+    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags); end
 
     class << self
 
@@ -22,8 +22,9 @@ module Middleman
         options.clean ||= false
 
         # Default options for the git method.
-        options.remote ||= "origin"
-        options.branch ||= "gh-pages"
+        options.remote    ||= "origin"
+        options.branch    ||= "gh-pages"
+        options.strategy  ||= :force_push
 
         options.build_before ||= false
 

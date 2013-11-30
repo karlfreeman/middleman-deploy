@@ -68,9 +68,13 @@ activate :deploy do |deploy|
   # remote is optional (default is "origin")
   # run `git remote -v` to see a list of possible remotes
   deploy.remote = "some-other-remote-name"
+
   # branch is optional (default is "gh-pages")
   # run `git branch -a` to see a list of possible branches
   deploy.branch = "some-other-branch-name"
+
+  # strategy is optional (default is :force_push)
+  deploy.strategy = :submodule
 end
 
 # To deploy the build directory to a remote host via ftp:
@@ -153,8 +157,13 @@ EOF
       end
 
       def deploy_git
-        remote = self.deploy_options.remote
-        branch = self.deploy_options.branch
+        remote    = self.deploy_options.remote
+        branch    = self.deploy_options.branch
+        strategy  = self.deploy_options.strategy
+
+        commit_signature  = "#{Middleman::Deploy::PACKAGE} #{Middleman::Deploy::VERSION}"
+        commit_time       = "#{Time.now.utc}"
+        push_options      = (strategy == :force_push ? ' -f' : nil)
 
         puts "## Deploying via git to remote=\"#{remote}\" and branch=\"#{branch}\""
 
@@ -170,14 +179,16 @@ EOF
         end
 
         Dir.chdir(self.inst.build_dir) do
-          unless File.exists?('.git')
-            `git init`
-            `git remote add origin #{remote}`
-          else
-            #check if the remote repo has changed
-            unless remote == `git config --get remote.origin.url`.chop
-              `git remote rm origin`
+          if strategy == :force_push
+            unless File.exists?('.git')
+              `git init`
               `git remote add origin #{remote}`
+            else
+              #check if the remote repo has changed
+              unless remote == `git config --get remote.origin.url`.chop
+                `git remote rm origin`
+                `git remote add origin #{remote}`
+              end
             end
           end
 
@@ -188,10 +199,29 @@ EOF
             `git checkout -b #{branch}`
           end
 
+          if strategy == :submodule
+            `git fetch`
+            `git stash`
+            `git rebase #{self.deploy_options.remote}/#{branch}`
+            `git stash pop`
+
+            if $?.exitstatus == 1
+              puts "Can't deploy! Please resolve conflicts. Then process to manual commit and push on #{branch} branch."
+              exit
+            end
+          end
+
           `git add -A`
-          # '"message"' double quotes to fix windows issue
-          `git commit --allow-empty -am '"Automated commit at #{Time.now.utc} by #{Middleman::Deploy::PACKAGE} #{Middleman::Deploy::VERSION}"'`
-          `git push -f origin #{branch}`
+          `git commit --allow-empty -am "Automated commit at #{commit_time} by #{commit_signature}"`
+          `git push #{push_options} origin #{branch}`
+        end
+
+        if strategy == :submodule
+          current_branch = `git rev-parse --abbrev-ref HEAD`
+
+          `git add #{self.inst.build_dir}`
+          `git commit --allow-empty -m "Deployed at #{commit_time} by #{commit_signature}"`
+          `git push origin #{current_branch}`
         end
       end
 
