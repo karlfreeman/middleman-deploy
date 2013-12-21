@@ -104,7 +104,7 @@ activate :deploy do |deploy|
 end
 ```
 
-### lftp
+### lftp (experimental)
 
 Make sure that `lftp` is installed, and activate the extension by adding the following to `config.rb`:
 
