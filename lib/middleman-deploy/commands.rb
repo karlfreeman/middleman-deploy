@@ -94,6 +94,24 @@ activate :deploy do |deploy|
   # password is optional (no default)
   deploy.password = "secret"
 end
+
+# To deploy the build directory to a remote host via lftp:
+activate :deploy do |deploy|
+  deploy.method = :lftp
+  # protocol is optional (default is :ftp)
+  deploy.protocol = :sftp
+  # host and path *must* be set
+  deploy.host = "ftp.example.com"
+  deploy.path = "/srv/www/site"
+  # user is optional (no default)
+  deploy.user = "tvaughan"
+  # port is optional
+  deploy.port  = 21
+  # clean is optional (default is false)
+  # NOTE: clean is potentially dangerous, make sure deploy.path is set correctly
+  # or the wrong files might be deleted!
+  deploy.clean = true
+end
 EOF
       end
 
@@ -115,7 +133,7 @@ EOF
         end
 
         case options.method
-        when :rsync, :sftp
+        when :rsync, :sftp, :lftp
           if (!options.host || !options.path)
             print_usage_and_die "The #{options.method} method requires host and path to be set."
           end
@@ -130,7 +148,7 @@ EOF
 
       def deploy_rsync
         host = self.deploy_options.host
-        port = self.deploy_options.port
+        port = self.deploy_options.port || 22
         path = self.deploy_options.path
 
         # Append "@" to user if provided.
@@ -285,7 +303,43 @@ EOF
         end
       end
 
+      def deploy_lftp
+        host = self.deploy_options.host
+        port = self.deploy_options.port
+        path = self.deploy_options.path
+        user = self.deploy_options.user
+        pass = self.deploy_options.password
+        protocol = self.deploy_options.protocol.to_s
+
+        # Append "@" to user if provided.
+        if user && !user.empty?
+          if pass && !pass.empty?
+            user = "#{user}:"
+            pass = "#{pass}@"
+          else
+            user = "#{user}@"
+          end
+        end
+
+        dest_url = "#{protocol}://#{user}#{pass}#{host}"
+        dest_url = "#{dest_url}:#{port}" if port
+
+        puts "## Deploying via lftp to #{dest_url}"
+
+        fail "build directory does not exists" unless File.exist?(self.inst.build_dir)
+
+        command = <<-END
+          lftp -c "set ftp:list-options -a;
+                   set cmd:fail-exit yes;
+                   open '#{dest_url}';
+                   lcd #{self.inst.build_dir}
+                   cd #{path};
+                   mirror --reverse #{self.deploy_options.clean ? '--delete' : ''} --verbose;"
+        END
+        run command
+      end
     end
+
 
     # Alias "d" to "deploy"
     Base.map({ "d" => "deploy" })
