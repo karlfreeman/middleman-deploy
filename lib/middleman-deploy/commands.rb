@@ -332,7 +332,7 @@ EOF
           lftp -c "set ftp:list-options -a;
                    set cmd:fail-exit yes;
                    open '#{dest_url}';
-                   lcd #{self.inst.build_dir}
+                   lcd #{self.inst.build_dir};
                    cd #{path};
                    mirror --reverse #{self.deploy_options.clean ? '--delete' : ''} --verbose;"
         END
