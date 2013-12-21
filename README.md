@@ -104,6 +104,27 @@ activate :deploy do |deploy|
 end
 ```
 
+### lftp
+
+Make sure that `lftp` is installed, and activate the extension by adding the following to `config.rb`:
+
+```ruby
+activate :deploy do |deploy|
+  deploy.method = :lftp
+  deploy.host = "ftp.example.com"
+  deploy.path = "/srv/www/site"
+  deploy.user = "tvaughan" # no default
+  deploy.password = "secret" # no default
+
+  # Optional Settings
+  # deploy.protocol = :sftp # default :ftp 
+  # deploy.port  = 21 # default depending on protocol
+  # deploy.clean = true
+  # NOTE: clean is potentially dangerous, make sure deploy.path is set correctly
+  # or the wrong files might be deleted!
+end
+```
+
 ## Breaking Changes
 
 * `v0.1.0`
