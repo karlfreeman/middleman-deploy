@@ -10,7 +10,7 @@ module Middleman
           puts "## Deploying via sftp to #{self.user}@#{self.host}:#{path}"
 
           # `nil` is a valid value for user and/or pass.
-          Net::SFTP.start(self.host, self.user, :password => self.pass) do |sftp|
+          Net::SFTP.start(self.host, self.user, :password => self.pass, :port => self.port) do |sftp|
             sftp.mkdir(self.path)
 
             Dir.chdir(self.server_instance.build_dir) do

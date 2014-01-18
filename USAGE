@@ -47,6 +47,7 @@ activate :deploy do |deploy|
   deploy.method = :sftp
   # host, user, passwword and path *must* be set
   deploy.host = "sftp.example.com"
+  deploy.port = 22
   deploy.path = "/srv/www/site"
   # user is optional (no default)
   deploy.user = "tvaughan"
