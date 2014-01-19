@@ -53,3 +53,23 @@ activate :deploy do |deploy|
   # password is optional (no default)
   deploy.password = "secret"
 end
+
+# To deploy the build directory to a remote host via lftp:
+activate :deploy do |deploy|
+  deploy.method = :lftp
+  # protocol is optional (default is :ftp)
+  deploy.protocol = :sftp
+  # host and path *must* be set
+  deploy.host = "ftp.example.com"
+  deploy.path = "/srv/www/site"
+  # user is optional (no default)
+  deploy.user = "tvaughan"
+  # port is optional
+  deploy.port  = 21
+  # clean is optional (default is false)
+  # NOTE: clean is potentially dangerous, make sure deploy.path is set
+  # or the wrong files might be deleted!
+  deploy.clean = true
+end
+
+

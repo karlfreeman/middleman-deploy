@@ -51,7 +51,6 @@ module Middleman
 
       def process
         server_instance   = ::Middleman::Application.server.inst
-
         camelized_method  = self.deploy_options.method.to_s.split('_').map { |word| word.capitalize}.join
         method_class_name = "Middleman::Deploy::Methods::#{camelized_method}"
         method_instance   = method_class_name.constantize.new(server_instance, self.deploy_options)

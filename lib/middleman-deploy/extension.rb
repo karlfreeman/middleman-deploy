@@ -5,7 +5,7 @@ require "middleman-core"
 module Middleman
   module Deploy
 
-    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags); end
+    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags, :protocol); end
 
     class << self
 
@@ -18,13 +18,15 @@ module Middleman
         yield options if block_given?
 
         # Default options for the rsync method.
-        options.port ||= 22
         options.clean ||= false
 
         # Default options for the git method.
         options.remote    ||= "origin"
         options.branch    ||= "gh-pages"
         options.strategy  ||= :force_push
+
+        # Default options for the lftp method
+        options.protocol ||= "ftp"
 
         options.build_before ||= false
 
