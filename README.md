@@ -132,11 +132,6 @@ else
 end
 ```
 
-    $ TARGET=staging bundle exec middleman deploy
-    $ TARGET=production bundle exec middleman deploy
-
-Tighten this up with some custom Rake tasks
-
 ```ruby
 # Rakefile
 
