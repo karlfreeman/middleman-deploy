@@ -6,7 +6,7 @@ module Middleman
     module Methods
       class Ftp < Base
 
-        attr_reader :host, :pass, :path,:user
+        attr_reader :host, :port, :pass, :path, :user
 
         def initialize(server_instance, options={})
           super(server_instance, options)
