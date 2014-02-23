@@ -15,6 +15,7 @@ module Middleman
           @user = self.options.user
           @pass = self.options.password
           @path = self.options.path
+          @port = self.options.port
         end
 
         def process

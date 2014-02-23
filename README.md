@@ -102,6 +102,7 @@ Activate the extension by adding the following to `config.rb`:
 activate :deploy do |deploy|
   deploy.method   = :sftp
   deploy.host     = "sftp.example.com"
+  deploy.port     = 22
   deploy.path     = "/srv/www/site"
   # Optional Settings
   # deploy.user     = "tvaughan" # no default
