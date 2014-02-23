@@ -111,7 +111,11 @@ end
 
 ### Multiple Environments
 
+<<<<<<< HEAD
 Deploy your site to more than one configuration using environment variables.
+=======
+Deploy to different environments using environment variables and Rake tasks.
+>>>>>>> 260665eef9aa105ebd6521f300cbdc059e063a82
 
 ```ruby
 # config.rb
