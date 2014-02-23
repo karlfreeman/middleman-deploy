@@ -109,6 +109,49 @@ activate :deploy do |deploy|
 end
 ```
 
+### Multiple Environments
+
+Deploy your site to more than one configuration using environment variables.
+
+```ruby
+# config.rb
+case ENV['TARGET'].to_s.downcase
+when 'production'
+  activate :deploy do |deploy|
+    deploy.method   = :rsync
+    deploy.host     = "www.example.com"
+    deploy.path     = "/srv/www/production-site"
+  end
+else
+  activate :deploy do |deploy|
+    deploy.method   = :rsync
+    deploy.host     = "staging.example.com"
+    deploy.path     = "/srv/www/staging-site"
+  end
+end
+```
+
+```ruby
+# Rakefile
+namespace :deploy do
+  def deploy(env)
+    puts "Deploying to #{env}"
+    exec "TARGET=#{env} bundle exec middleman deploy"
+  end
+
+  task :staging do
+    deploy :staging
+  end
+
+  task :production do
+    deploy :production
+  end
+end
+```
+
+    $ rake deploy:staging
+    $ rake deploy:production
+
 ## Breaking Changes
 
 * `v0.1.0`
