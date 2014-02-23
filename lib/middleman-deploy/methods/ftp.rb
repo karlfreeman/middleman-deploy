@@ -27,10 +27,8 @@ module Middleman
             filtered_files.each do |filename|
               if File.directory?(filename)
                 upload_directory(ftp, filename)
-              elsif File.binary?(filename)
+              else 
                 upload_binary(ftp, filename)
-              else
-                upload_file(ftp, filename)
               end
             end
           end
@@ -85,16 +83,7 @@ module Middleman
           rescue
           end
         end
-
-        def upload_file(ftp, filename)
-          begin
-            ftp.puttextfile(filename, filename)
-          rescue Exception => exception
-            handle_exception(exception, ftp, filename)
-          end
-
-          puts "Copied #{filename}"
-        end
+        
 
       end
     end
