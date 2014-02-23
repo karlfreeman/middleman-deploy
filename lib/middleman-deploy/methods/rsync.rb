@@ -21,8 +21,8 @@ module Middleman
           user      = "#{self.user}@" if self.user && !self.user.empty?
 
           dest_url  = "#{user}#{self.host}:#{self.path}"
-          flags     = self.flags || '-avze'
-          command   = "rsync #{flags} 'ssh -p #{self.port}' #{self.server_instance.build_dir}/ #{dest_url}"
+          flags     = self.flags || '-avz'
+          command   = "rsync #{flags} '-e ssh -p #{self.port}' #{self.server_instance.build_dir}/ #{dest_url}"
 
           if self.clean
             command += " --delete"
