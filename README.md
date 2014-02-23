@@ -115,7 +115,6 @@ Deploy your site to more than one configuration using environment variables.
 
 ```ruby
 # config.rb
-
 case ENV['TARGET'].to_s.downcase
 when 'production'
   activate :deploy do |deploy|
@@ -134,7 +133,6 @@ end
 
 ```ruby
 # Rakefile
-
 namespace :deploy do
   def deploy(env)
     puts "Deploying to #{env}"
