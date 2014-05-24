@@ -3,12 +3,13 @@ module Middleman
     module Strategies
       module Git
         class Base
-          attr_accessor :branch, :build_dir, :remote
+          attr_accessor :branch, :build_dir, :remote, :commit_message
 
-          def initialize(build_dir, remote, branch)
-            self.branch     = branch
-            self.build_dir  = build_dir
-            self.remote     = remote
+          def initialize(build_dir, remote, branch, commit_message)
+            self.branch         = branch
+            self.build_dir      = build_dir
+            self.remote         = remote
+            self.commit_message = commit_message
           end
 
           def process
@@ -34,7 +35,7 @@ module Middleman
           end
 
           def commit_branch(options='')
-            message = add_signature_to_commit_message('Automated commit')
+            message = self.commit_message ? self.commit_message : add_signature_to_commit_message('Automated commit')
 
             `git add -A`
             `git commit --allow-empty -am "#{message}"`
