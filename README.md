@@ -1,5 +1,7 @@
 # middleman-deploy [![Gem Version](https://badge.fury.io/rb/middleman-deploy.png)](http://badge.fury.io/rb/middleman-deploy)
 
+## Help! middleman-deploy needs a new maintainer. Please [create a GitHub issue](https://github.com/tvaughan/middleman-deploy/issues) if you're interested. Thanks!
+
 Deploys a [middleman](http://middlemanapp.com/) built site via **rsync**,
 **ftp**, **sftp**, or **git** (e.g. gh-pages on github).
 
