@@ -3,10 +3,6 @@
 Deploys a [middleman](http://middlemanapp.com/) built site via **rsync**,
 **ftp**, **sftp**, or **git** (e.g. gh-pages on github).
 
-## Help!
-
-middleman-deploy needs a new maintainer. Please [create a GitHub issue](https://github.com/tvaughan/middleman-deploy/issues/new) if you're interested. Thanks!
-
 ## Installation
 
 Add this to the Gemfile of the repository of your middleman site:
