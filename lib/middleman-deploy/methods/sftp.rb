@@ -5,12 +5,11 @@ module Middleman
   module Deploy
     module Methods
       class Sftp < Ftp
-
         def process
           puts "## Deploying via sftp to #{self.user}@#{self.host}:#{path}"
 
           # `nil` is a valid value for user and/or pass.
-          Net::SFTP.start(self.host, self.user, :password => self.pass, :port => self.port) do |sftp|
+          Net::SFTP.start(self.host, self.user, password: self.pass, port: self.port) do |sftp|
             sftp.mkdir(self.path)
 
             Dir.chdir(self.server_instance.build_dir) do
@@ -25,11 +24,11 @@ module Middleman
           end
         end
 
-      protected
+        protected
 
         def handle_exception(exception)
           reply     = exception.message
-          err_code  = reply[0,3].to_i
+          err_code  = reply[0, 3].to_i
 
           if err_code == 550
             sftp.upload(filename, file_path)
@@ -57,9 +56,7 @@ module Middleman
 
           puts "Copied #{filename}"
         end
-
       end
     end
   end
 end
-

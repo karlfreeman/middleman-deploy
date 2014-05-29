@@ -1,19 +1,17 @@
 # Require core library
-require "middleman-core"
+require 'middleman-core'
 
 # Extension namespace
 module Middleman
   module Deploy
-
-    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags, :commit_message); end
+    class Options < Struct.new(:method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags, :commit_message); end
 
     class << self
-
       def options
         @@options
       end
 
-      def registered(app, options_hash={}, &block)
+      def registered(app, options_hash = {}, &block)
         options = Options.new(options_hash)
         yield options if block_given?
 
@@ -22,9 +20,9 @@ module Middleman
         options.clean ||= false
 
         # Default options for the git method.
-        options.remote    ||= "origin"
-        options.branch    ||= "gh-pages"
-        options.strategy  ||= :force_push
+        options.remote ||= 'origin'
+        options.branch ||= 'gh-pages'
+        options.strategy ||= :force_push
         options.commit_message  ||= nil
 
         options.build_before ||= false
@@ -34,8 +32,7 @@ module Middleman
         app.send :include, Helpers
       end
 
-      alias :included :registered
-
+      alias_method :included, :registered
     end
 
     module Helpers
@@ -43,6 +40,5 @@ module Middleman
         ::Middleman::Deploy.options
       end
     end
-
   end
 end

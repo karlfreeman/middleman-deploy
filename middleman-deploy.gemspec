@@ -1,27 +1,32 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "middleman-deploy/pkg-info"
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'middleman-deploy/pkg-info'
 
-Gem::Specification.new do |s|
-  s.name        = Middleman::Deploy::PACKAGE
-  s.version     = Middleman::Deploy::VERSION
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Tom Vaughan"]
-  s.email       = ["thomas.david.vaughan@gmail.com"]
-  s.homepage    = "http://github.com/tvaughan/middleman-deploy"
-  s.summary     = Middleman::Deploy::TAGLINE
-  s.description = Middleman::Deploy::TAGLINE
-  s.license     = "MIT"
+Gem::Specification.new do |spec|
+  spec.name          = Middleman::Deploy::PACKAGE
+  spec.version       = Middleman::Deploy::VERSION
+  spec.authors       = ['Tom Vaughan', 'Karl Freeman']
+  spec.email         = ['thomas.david.vaughan@gmail.com', 'karlfreeman@gmail.com']
+  spec.summary       = Middleman::Deploy::TAGLINE
+  spec.description   = Middleman::Deploy::TAGLINE
+  spec.homepage      = 'https://github.com/karlfreeman/middleman-deploy'
+  spec.license       = 'MIT'
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  spec.files         = `git ls-files -z`.split("\x0")
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ['lib']
+  spec.required_ruby_version = '>= 1.9.3'
 
-  # The version of middleman-core your extension depends on
-  s.add_runtime_dependency("middleman-core", [">= 3.0.0"])
+  spec.add_dependency 'middleman-core', '>= 3.2'
+  spec.add_dependency 'ptools'
+  spec.add_dependency 'net-sftp'
 
-  # Additional dependencies
-  s.add_runtime_dependency("ptools")
-  s.add_runtime_dependency("net-sftp")
+  spec.add_development_dependency 'bundler', '~> 1.5'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'kramdown', '>= 0.14'
+  spec.add_development_dependency 'rubocop', '~> 0.19'
+  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'yard'
 end

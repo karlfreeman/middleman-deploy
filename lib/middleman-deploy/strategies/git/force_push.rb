@@ -3,7 +3,6 @@ module Middleman
     module Strategies
       module Git
         class ForcePush < Base
-
           def process
             Dir.chdir(self.build_dir) do
               add_remote_url
@@ -12,12 +11,12 @@ module Middleman
             end
           end
 
-        private
+          private
 
           def add_remote_url
             url = get_remote_url
 
-            unless File.exists?('.git')
+            unless File.exist?('.git')
               `git init`
               `git remote add origin #{url}`
             else
@@ -46,7 +45,6 @@ module Middleman
 
             url
           end
-
         end
       end
     end

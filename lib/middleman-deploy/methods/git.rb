@@ -2,7 +2,6 @@ module Middleman
   module Deploy
     module Methods
       class Git < Base
-
         def process
           puts "## Deploying via git to remote=\"#{self.options.remote}\" and branch=\"#{self.options.branch}\""
 
@@ -12,7 +11,6 @@ module Middleman
 
           strategy_instance.process
         end
-
       end
     end
   end

@@ -1,13 +1,12 @@
-require "middleman-core/cli"
+require 'middleman-core/cli'
 
-require "middleman-deploy/extension"
-require "middleman-deploy/methods"
-require "middleman-deploy/strategies"
-require "middleman-deploy/pkg-info"
+require 'middleman-deploy/pkg-info'
+require 'middleman-deploy/extension'
+require 'middleman-deploy/methods'
+require 'middleman-deploy/strategies'
 
 module Middleman
   module Cli
-
     # This class provides a "deploy" command for the middleman CLI.
     class Deploy < Thor
       include Thor::Actions
@@ -21,11 +20,11 @@ module Middleman
         true
       end
 
-      desc "deploy [options]", Middleman::Deploy::TAGLINE
-      method_option "build_before",
-        :type     => :boolean,
-        :aliases  => "-b",
-        :desc     => "Run `middleman build` before the deploy step"
+      desc 'deploy [options]', Middleman::Deploy::TAGLINE
+      method_option 'build_before',
+        type: :boolean,
+        aliases: '-b',
+        desc: 'Run `middleman build` before the deploy step'
       def deploy
         build_before(options)
         process
@@ -33,7 +32,7 @@ module Middleman
 
       protected
 
-      def build_before(options={})
+      def build_before(options = {})
         build_enabled = options.fetch('build_before', self.deploy_options.build_before)
 
         if build_enabled
@@ -43,10 +42,7 @@ module Middleman
       end
 
       def print_usage_and_die(message)
-        usage_path    = File.join(File.dirname(__FILE__), '..', '..', 'USAGE')
-        usage_message = File.read(usage_path)
-
-        raise Error, "ERROR: #{message}\n#{usage_message}"
+        raise Error, "ERROR: #{message}\n#{Middleman::Deploy::README}"
       end
 
       def process
@@ -65,11 +61,11 @@ module Middleman
         begin
           options = ::Middleman::Application.server.inst.options
         rescue NoMethodError
-          print_usage_and_die "You need to activate the deploy extension in config.rb."
+          print_usage_and_die 'You need to activate the deploy extension in config.rb.'
         end
 
         unless options.method
-          print_usage_and_die "The deploy extension requires you to set a method."
+          print_usage_and_die 'The deploy extension requires you to set a method.'
         end
 
         case options.method
@@ -79,7 +75,7 @@ module Middleman
           end
         when :ftp
           unless options.host && options.user && options.password && options.path
-            print_usage_and_die "The ftp deploy method requires host, path, user, and password to be set."
+            print_usage_and_die 'The ftp deploy method requires host, path, user, and password to be set.'
           end
         end
 
@@ -88,6 +84,6 @@ module Middleman
     end
 
     # Alias "d" to "deploy"
-    Base.map({ "d" => "deploy" })
+    Base.map('d' => 'deploy')
   end
 end

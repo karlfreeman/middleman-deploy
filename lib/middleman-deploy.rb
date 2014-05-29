@@ -1,8 +1,8 @@
-require "middleman-core"
+require 'middleman-core'
 
-require "middleman-deploy/commands"
+require 'middleman-deploy/commands'
 
 ::Middleman::Extensions.register(:deploy) do
-  require "middleman-deploy/extension"
+  require 'middleman-deploy/extension'
   ::Middleman::Deploy
 end
