@@ -6,11 +6,13 @@ module Middleman
     module Methods
       class Sftp < Ftp
 
-        def process
-          puts "## Deploying via sftp to #{self.user}@#{self.host}:#{path}"
+        protected
+
+        def process_host(host)
+          puts "## Deploying via sftp to #{self.user}@#{host}:#{path}"
 
           # `nil` is a valid value for user and/or pass.
-          Net::SFTP.start(self.host, self.user, :password => self.pass, :port => self.port) do |sftp|
+          Net::SFTP.start(host, self.user, :password => self.pass, :port => self.port) do |sftp|
             sftp.mkdir(self.path)
 
             Dir.chdir(self.server_instance.build_dir) do
@@ -25,7 +27,6 @@ module Middleman
           end
         end
 
-      protected
 
         def handle_exception(exception)
           reply     = exception.message

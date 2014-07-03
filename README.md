@@ -154,6 +154,23 @@ end
     $ rake deploy:staging
     $ rake deploy:production
 
+
+## Deploying to multiple hosts
+
+The methods `:rsync`, `:ftp` and `:sftp` also support a deployment to multiple hosts. To achieve this, you must first make sure that users, ports and directories are the same on all servers. Then, set the `host` to an Array of all the hosts you want to deploy to:
+
+```ruby
+activate :deploy do |deploy|
+  deploy.method   = :sftp
+  deploy.host     = ["sftp.example.com", "sftp2.example.com"]
+  deploy.port     = 22
+  deploy.path     = "/srv/www/site"
+  # Optional Settings
+  # deploy.user     = "tvaughan" # no default
+  # deploy.password = "secret" # no default
+end
+```
+
 ## Breaking Changes
 
 * `v0.1.0`
