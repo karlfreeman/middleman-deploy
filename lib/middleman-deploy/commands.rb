@@ -3,6 +3,7 @@ require "middleman-core/cli"
 require "middleman-deploy/extension"
 require "middleman-deploy/methods"
 require "middleman-deploy/strategies"
+require "middleman-deploy/credentials"
 require "middleman-deploy/pkg-info"
 
 module Middleman
