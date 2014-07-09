@@ -30,6 +30,10 @@ activate :deploy do |deploy|
 
   # strategy is optional (default is :force_push)
   deploy.strategy = :submodule
+
+  # Git credentials helper (default is :none_helper)
+  deploy.credentials = :cache_helper
+  deploy.credentials_timeout = 3600 # (default is 12h)
 end
 
 # To deploy the build directory to a remote host via ftp:
