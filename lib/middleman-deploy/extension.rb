@@ -5,7 +5,7 @@ require "middleman-core"
 module Middleman
   module Deploy
 
-    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags, :commit_message); end
+    class Options < Struct.new(:whatisthis, :method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags, :commit_message, :credentials, :credentials_timeout); end
 
     class << self
 
@@ -26,7 +26,9 @@ module Middleman
         options.branch    ||= "gh-pages"
         options.strategy  ||= :force_push
         options.commit_message  ||= nil
-
+        options.credentials ||= :none_helper
+        options.credentials_timeout ||= 3600 * 12
+        
         options.build_before ||= false
 
         @@options = options
