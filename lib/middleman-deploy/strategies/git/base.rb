@@ -3,13 +3,15 @@ module Middleman
     module Strategies
       module Git
         class Base
-          attr_accessor :branch, :build_dir, :remote, :commit_message
+          attr_accessor :branch, :build_dir, :remote, :commit_message, :user_name, :user_email
 
           def initialize(build_dir, remote, branch, commit_message)
             self.branch         = branch
             self.build_dir      = build_dir
             self.remote         = remote
             self.commit_message = commit_message
+            self.user_name      = `git config --get user.name`
+            self.user_email     = `git config --get user.email`
           end
 
           def process
