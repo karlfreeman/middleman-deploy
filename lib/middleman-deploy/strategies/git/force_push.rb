@@ -30,7 +30,7 @@ module Middleman
               end
               # check if the user name has changed
               `git config user.name "#{self.user_name}"` unless self.user_name == `git config --get user.name`
-              # check if the remote repo has changed
+              # check if the user email has changed
               `git config user.email "#{self.user_email}"` unless self.user_email == `git config --get user.email`
             end
           end
