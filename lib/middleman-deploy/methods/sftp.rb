@@ -27,7 +27,7 @@ module Middleman
 
       protected
 
-        def handle_exception(exception)
+        def handle_exception(exception,filename, file_path)
           reply     = exception.message
           err_code  = reply[0,3].to_i
 
@@ -52,7 +52,7 @@ module Middleman
           begin
             sftp.upload(filename, file_path)
           rescue Exception => exception
-            handle_exception(exception, file_path)
+            handle_exception(exception, filename, file_path)
           end
 
           puts "Copied #{filename}"
