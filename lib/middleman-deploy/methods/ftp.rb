@@ -6,28 +6,36 @@ module Middleman
     module Methods
       class Ftp < Base
 
-        attr_reader :host, :port, :pass, :path, :user
+        attr_reader :hosts, :port, :pass, :path, :user
 
         def initialize(server_instance, options={})
           super(server_instance, options)
 
-          @host = self.options.host
-          @user = self.options.user
-          @pass = self.options.password
-          @path = self.options.path
-          @port = self.options.port
+          @hosts = [self.options.host].flatten
+          @user  = self.options.user
+          @pass  = self.options.password
+          @path  = self.options.path
+          @port  = self.options.port
         end
 
         def process
-          puts "## Deploying via ftp to #{self.user}@#{self.host}:#{self.path}"
+          [hosts].flatten.each do |host|
+            process_host(host)
+          end
+        end
 
-          ftp = open_connection
+      protected
+
+        def process_host(host)
+          puts "## Deploying via ftp to #{self.user}@#{host}:#{self.path}"
+
+          ftp = open_connection(host)
 
           Dir.chdir(self.server_instance.build_dir) do
             filtered_files.each do |filename|
               if File.directory?(filename)
                 upload_directory(ftp, filename)
-              else 
+              else
                 upload_binary(ftp, filename)
               end
             end
@@ -35,8 +43,6 @@ module Middleman
 
           ftp.close
         end
-
-      protected
 
         def filtered_files
           files = Dir.glob('**/*', File::FNM_DOTMATCH)
@@ -57,8 +63,8 @@ module Middleman
           end
         end
 
-        def open_connection
-          ftp = Net::FTP.new(self.host)
+        def open_connection(host)
+          ftp = Net::FTP.new(host)
           ftp.login(self.user, self.pass)
           ftp.chdir(self.path)
           ftp.passive = true
@@ -83,7 +89,7 @@ module Middleman
           rescue
           end
         end
-        
+
 
       end
     end
