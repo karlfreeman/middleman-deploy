@@ -16,7 +16,7 @@ module Middleman
             raise NotImplementedError
           end
 
-        protected
+          protected
 
           def add_signature_to_commit_message(base_message)
             signature = "#{Middleman::Deploy::PACKAGE} #{Middleman::Deploy::VERSION}"
@@ -34,14 +34,13 @@ module Middleman
             end
           end
 
-          def commit_branch(options='')
+          def commit_branch(options = '')
             message = self.commit_message ? self.commit_message : add_signature_to_commit_message('Automated commit')
 
             `git add -A`
             `git commit --allow-empty -am "#{message}"`
             `git push #{options} origin #{self.branch}`
           end
-
         end
       end
     end

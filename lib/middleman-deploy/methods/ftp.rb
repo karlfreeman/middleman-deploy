@@ -5,10 +5,9 @@ module Middleman
   module Deploy
     module Methods
       class Ftp < Base
-
         attr_reader :host, :port, :pass, :path, :user
 
-        def initialize(server_instance, options={})
+        def initialize(server_instance, options = {})
           super(server_instance, options)
 
           @host = self.options.host
@@ -27,7 +26,7 @@ module Middleman
             filtered_files.each do |filename|
               if File.directory?(filename)
                 upload_directory(ftp, filename)
-              else 
+              else
                 upload_binary(ftp, filename)
               end
             end
@@ -36,7 +35,7 @@ module Middleman
           ftp.close
         end
 
-      protected
+        protected
 
         def filtered_files
           files = Dir.glob('**/*', File::FNM_DOTMATCH)
@@ -46,7 +45,7 @@ module Middleman
 
         def handle_exception(exception, ftp, filename)
           reply     = exception.message
-          err_code  = reply[0,3].to_i
+          err_code  = reply[0, 3].to_i
 
           if err_code == 550
             if File.binary?(filename)
@@ -83,8 +82,6 @@ module Middleman
           rescue
           end
         end
-        
-
       end
     end
   end

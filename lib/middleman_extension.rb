@@ -1,1 +1,1 @@
-require "middleman-deploy"
+require 'middleman-deploy'

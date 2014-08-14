@@ -3,7 +3,6 @@ module Middleman
     module Strategies
       module Git
         class Submodule < Base
-
           def process
             Dir.chdir(self.build_dir) do
               checkout_branch
@@ -14,7 +13,7 @@ module Middleman
             commit_submodule
           end
 
-        private
+          private
 
           def commit_submodule
             current_branch  = `git rev-parse --abbrev-ref HEAD`
@@ -36,7 +35,6 @@ module Middleman
               exit
             end
           end
-
         end
       end
     end

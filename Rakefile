@@ -1,14 +1,25 @@
 require 'bundler'
+Bundler.setup
 Bundler::GemHelper.install_tasks
 
 require 'cucumber/rake/task'
-
 Cucumber::Rake::Task.new(:cucumber, 'Run features that should pass') do |t|
-  t.cucumber_opts = "--color --tags ~@wip --strict --format #{ENV['CUCUMBER_FORMAT'] || 'Fivemat'}"
+  exempt_tags = ['--tags ~@wip']
+  t.cucumber_opts = "--color #{exempt_tags.join(' ')} --strict --format #{ENV['CUCUMBER_FORMAT'] || 'Fivemat'}"
 end
 
-require 'rake/clean'
+begin
+  require 'yard'
+  YARD::Rake::YardocTask.new
+rescue LoadError
+end
 
-task :test => ["cucumber"]
+begin
+  require 'rubocop/rake_task'
+  desc 'Run rubocop'
+  Rubocop::RakeTask.new(:rubocop)
+rescue LoadError
+end
 
-task :default => :test
+task default: :cucumber
+task test: :cucumber

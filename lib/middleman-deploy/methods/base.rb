@@ -4,7 +4,7 @@ module Middleman
       class Base
         attr_reader :options, :server_instance
 
-        def initialize(server_instance, options={})
+        def initialize(server_instance, options = {})
           @options          = options
           @server_instance  = server_instance
         end
@@ -12,7 +12,6 @@ module Middleman
         def process
           raise NotImplementedError
         end
-
       end
     end
   end

@@ -1,0 +1,24 @@
+AllCops:
+  Include:
+    - Rakefile
+    - Gemfile
+  Exclude:
+    - script/**/*
+    - vendor/**/*
+    - bin/**/*
+LineLength:
+  Enabled: false
+MethodLength:
+  Enabled: false
+ClassLength:
+  Enabled: false
+Documentation:
+  Enabled: false
+Encoding:
+  Enabled: false
+Blocks:
+  Enabled: false
+AlignParameters:
+  Enabled: false
+HashSyntax:
+  EnforcedStyle: ruby19

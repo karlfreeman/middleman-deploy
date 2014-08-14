@@ -2,10 +2,9 @@ module Middleman
   module Deploy
     module Methods
       class Rsync < Base
-
         attr_reader :clean, :flags, :host, :path, :port, :user
 
-        def initialize(server_instance, options={})
+        def initialize(server_instance, options = {})
           super(server_instance, options)
 
           @clean  = self.options.clean
@@ -25,13 +24,12 @@ module Middleman
           command   = "rsync #{flags} '-e ssh -p #{self.port}' #{self.server_instance.build_dir}/ #{dest_url}"
 
           if self.clean
-            command += " --delete"
+            command += ' --delete'
           end
 
           puts "## Deploying via rsync to #{dest_url} port=#{self.port}"
           exec command
         end
-
       end
     end
   end
