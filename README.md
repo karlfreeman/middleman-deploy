@@ -5,7 +5,7 @@ Deploy your [Middleman](http://middlemanapp.com/) build via **rsync**, **ftp**, 
 ## Installation
 
 ```ruby
-gem 'middleman-deploy', '~> 2.5'
+gem 'middleman-deploy', '~> 3.0'
 ```
 
 ## Usage
