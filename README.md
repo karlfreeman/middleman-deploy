@@ -146,11 +146,15 @@ namespace :deploy do
 end
 ```
 
-    $ rake deploy:staging
-    $ rake deploy:production
+```
+$ rake deploy:staging
+$ rake deploy:production
+```
 
 ## Breaking Changes
 
+* `v0.3.0`
+    - Ruby 1.9.3+ support only
 * `v0.1.0`
     - Removed the `--clean` command-line option. This option only applied to
       the rsync deploy method. The idea going forward is that command-line
