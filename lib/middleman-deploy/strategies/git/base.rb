@@ -37,9 +37,14 @@ module Middleman
           def commit_branch(options = '')
             message = self.commit_message ? self.commit_message : add_signature_to_commit_message('Automated commit')
 
-            `git add -A`
-            `git commit --allow-empty -am "#{message}"`
-            `git push #{options} origin #{self.branch}`
+            run_or_fail("git add -A")
+            run_or_fail("git commit --allow-empty -am \"#{message}\"")
+            run_or_fail("git push #{options} origin #{self.branch}")
+          end
+
+          private
+          def run_or_fail(command)
+            system(command) || raise("ERROR running: #{command}")
           end
         end
       end
