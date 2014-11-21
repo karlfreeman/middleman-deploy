@@ -17,7 +17,7 @@ end
 begin
   require 'rubocop/rake_task'
   desc 'Run rubocop'
-  Rubocop::RakeTask.new(:rubocop)
+  RuboCop::RakeTask.new(:rubocop)
 rescue LoadError
 end
 
