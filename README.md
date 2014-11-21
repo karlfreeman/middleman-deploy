@@ -5,7 +5,7 @@ Deploy your [Middleman](http://middlemanapp.com/) build via **rsync**, **ftp**, 
 ## Installation
 
 ```ruby
-gem 'middleman-deploy', '~> 0.3.0'
+gem 'middleman-deploy', '~> 1.0'
 ```
 
 ## Usage
@@ -151,20 +151,6 @@ $ rake deploy:staging
 $ rake deploy:production
 ```
 
-## Breaking Changes
-
-* `v0.3.0`
-    - Ruby 1.9.3+ support only
-* `v0.1.0`
-    - Removed the `--clean` command-line option. This option only applied to
-      the rsync deploy method. The idea going forward is that command-line
-      options must apply to all deploy methods. Options that are specific to a
-      deploy method will only be available in `config.rb`.
-    - Removed `deploy` from the `after_build` hook. This caused a `deploy` to
-      be run each time `build` was called. This workflow never made
-      sense. `deploy` was added to the `after_build` hook simply because it
-      was available.
-
 ## Badges
 
 [![Gem Version](http://img.shields.io/gem/v/middleman-deploy.svg)][gem]
@@ -184,11 +170,9 @@ implementations:
 - [JRuby][jruby]
 - [Rubinius][rubinius]
 
-## Thanks!
-
-A **BIG** thanks to [everyone who has contributed](https://github.com/tvaughan/middleman-deploy/graphs/contributors)! Almost all pull requests are accepted.
-
 # Credits
+
+A **BIG** thanks to [everyone who has contributed](https://github.com/karlfreeman/middleman-deploy/graphs/contributors)! Almost all pull requests are accepted.
 
 Inspiration:
 
