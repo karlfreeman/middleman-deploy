@@ -20,7 +20,7 @@ module Middleman
               `git init`
               `git remote add origin #{url}`
               `git config user.name "#{self.user_name}"`
-              `git config user.name "#{self.user_email}"`
+              `git config user.email "#{self.user_email}"`
             else
               # check if the remote repo has changed
               unless url == `git config --get remote.origin.url`.chop
