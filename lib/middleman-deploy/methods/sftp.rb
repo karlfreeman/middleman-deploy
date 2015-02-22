@@ -12,7 +12,7 @@ module Middleman
           Net::SFTP.start(self.host, self.user, password: self.pass, port: self.port) do |sftp|
             sftp.mkdir(self.path)
 
-            Dir.chdir(self.server_instance.build_dir) do
+            Dir.chdir(self.build_dir) do
               filtered_files.each do |filename|
                 if File.directory?(filename)
                   upload_directory(sftp, filename)

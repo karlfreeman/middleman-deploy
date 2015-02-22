@@ -8,24 +8,53 @@ require 'middleman-deploy/strategies'
 module Middleman
   module Cli
     # This class provides a "deploy" command for the middleman CLI.
-    class Deploy < Thor
+    class Deploy < Thor::Group
       include Thor::Actions
 
       check_unknown_options!
 
       namespace :deploy
 
+      class_option :environment,
+                 aliases: '-e',
+                 default: ENV['MM_ENV'] || ENV['RACK_ENV'] || 'production',
+                 desc: 'The environment Middleman will run under'
+
+      class_option :verbose,
+                   type: :boolean,
+                   default: false,
+                   desc: 'Print debug messages'
+
+      class_option :instrument,
+                   type: :string,
+                   default: false,
+                   desc: 'Print instrument messages'
+
+      class_option :build_before,
+        type: :boolean,
+        aliases: '-b',
+        desc: 'Run `middleman build` before the deploy step'
+
+      def self.subcommand_help options
+        # TODO
+      end
+
       # Tell Thor to exit with a nonzero exit code on failure
       def self.exit_on_failure?
         true
       end
 
-      desc 'deploy [options]', Middleman::Deploy::TAGLINE
-      method_option 'build_before',
-        type: :boolean,
-        aliases: '-b',
-        desc: 'Run `middleman build` before the deploy step'
+
       def deploy
+        env = options['environment'] ? :production : options['environment'].to_s.to_sym
+        verbose = options['verbose'] ? 0 : 1
+        instrument = options['instrument']
+
+        @app = ::Middleman::Application.new do
+          config[:mode] = :build
+          config[:environment] = env
+          ::Middleman::Logger.singleton(verbose, instrument)
+        end
         build_before(options)
         process
       end
@@ -37,18 +66,19 @@ module Middleman
 
         if build_enabled
           # http://forum.middlemanapp.com/t/problem-with-the-build-task-in-an-extension
-          run('middleman build') || exit(1)
+          run("middleman build -e #{options['environment']}") || exit(1)
         end
       end
 
       def print_usage_and_die(message)
-        raise Error, "ERROR: #{message}\n#{Middleman::Deploy::README}"
+        raise StandardError, "ERROR: #{message}\n#{Middleman::Deploy::README}"
       end
 
-      def process
-        server_instance   = ::Middleman::Application.server.inst
 
-        camelized_method  = self.deploy_options.method.to_s.split('_').map { |word| word.capitalize}.join
+
+      def process
+        server_instance   = @app
+        camelized_method  = self.deploy_options.deploy_method.to_s.split('_').map { |word| word.capitalize}.join
         method_class_name = "Middleman::Deploy::Methods::#{camelized_method}"
         method_instance   = method_class_name.constantize.new(server_instance, self.deploy_options)
 
@@ -59,19 +89,19 @@ module Middleman
         options = nil
 
         begin
-          options = ::Middleman::Application.server.inst.options
+          options = ::Middleman::Deploy.options
         rescue NoMethodError
           print_usage_and_die 'You need to activate the deploy extension in config.rb.'
         end
 
-        unless options.method
+        unless options.deploy_method
           print_usage_and_die 'The deploy extension requires you to set a method.'
         end
 
-        case options.method
+        case options.deploy_method
         when :rsync, :sftp
           unless options.host && options.path
-            print_usage_and_die "The #{options.method} method requires host and path to be set."
+            print_usage_and_die "The #{options.deploy_method} method requires host and path to be set."
           end
         when :ftp
           unless options.host && options.user && options.password && options.path
@@ -82,6 +112,9 @@ module Middleman
         options
       end
     end
+
+    # Add to CLI
+    Base.register(Middleman::Cli::Deploy, 'deploy', 'deploy [options]', Middleman::Deploy::TAGLINE)
 
     # Alias "d" to "deploy"
     Base.map('d' => 'deploy')
