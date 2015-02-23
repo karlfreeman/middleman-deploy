@@ -1,5 +1,5 @@
 require 'middleman-core/cli'
-
+require 'middleman-core/rack'
 require 'middleman-deploy/pkg-info'
 require 'middleman-deploy/extension'
 require 'middleman-deploy/methods'
