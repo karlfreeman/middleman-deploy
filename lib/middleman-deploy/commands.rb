@@ -1,5 +1,5 @@
 require 'middleman-core/cli'
-require 'middleman-core/rack'
+require 'middleman-core/rack' if Middleman::VERSION.to_i > 3
 require 'middleman-deploy/pkg-info'
 require 'middleman-deploy/extension'
 require 'middleman-deploy/methods'
