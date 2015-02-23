@@ -5,7 +5,19 @@ require 'middleman-core'
 module Middleman
   module Deploy
 
-    cattr_accessor :options
+    @options
+
+    class << self
+
+      def options
+        @options
+      end
+
+      def options= options
+        @options = options
+      end
+      
+    end
 
     class Extension < Extension
 
