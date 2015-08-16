@@ -6,13 +6,13 @@ module Middleman
     module Methods
       class Sftp < Ftp
         def process
-          puts "## Deploying via sftp to #{self.user}@#{self.host}:#{path}"
+          puts "## Deploying via sftp to #{user}@#{host}:#{path}"
 
           # `nil` is a valid value for user and/or pass.
-          Net::SFTP.start(self.host, self.user, password: self.pass, port: self.port) do |sftp|
-            sftp.mkdir(self.path)
+          Net::SFTP.start(host, user, password: pass, port: port) do |sftp|
+            sftp.mkdir(path)
 
-            Dir.chdir(self.build_dir) do
+            Dir.chdir(build_dir) do
               filtered_files.each do |filename|
                 if File.directory?(filename)
                   upload_directory(sftp, filename)
@@ -26,17 +26,15 @@ module Middleman
 
         protected
 
-        def handle_exception(exception,filename, file_path)
+        def handle_exception(exception, filename, file_path)
           reply     = exception.message
           err_code  = reply[0, 3].to_i
 
-          if err_code == 550
-            sftp.upload(filename, file_path)
-          end
+          sftp.upload(filename, file_path) if err_code == 550
         end
 
         def upload_directory(sftp, filename)
-          file_path = "#{self.path}/#{filename}"
+          file_path = "#{path}/#{filename}"
 
           begin
             sftp.mkdir(file_path)
@@ -46,7 +44,7 @@ module Middleman
         end
 
         def upload_file(sftp, filename)
-          file_path = "#{self.path}/#{filename}"
+          file_path = "#{path}/#{filename}"
 
           begin
             sftp.upload(filename, file_path)

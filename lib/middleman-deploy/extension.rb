@@ -4,23 +4,15 @@ require 'middleman-core'
 # Extension namespace
 module Middleman
   module Deploy
-
     @options
 
     class << self
+      attr_reader :options
 
-      def options
-        @options
-      end
-
-      def options= options
-        @options = options
-      end
-      
+      attr_writer :options
     end
 
     class Extension < Extension
-
       option :deploy_method, nil
       option :host, nil
       option :port, nil
@@ -35,8 +27,6 @@ module Middleman
       option :flags, nil
       option :commit_message, nil
 
-
-
       def initialize(app, options_hash = {}, &block)
         super
 
@@ -50,17 +40,14 @@ module Middleman
         options.remote ||= 'origin'
         options.branch ||= 'gh-pages'
         options.strategy ||= :force_push
-        options.commit_message  ||= nil
+        options.commit_message ||= nil
 
         options.build_before ||= false
-
       end
 
       def after_configuration
         ::Middleman::Deploy.options = options
       end
-
     end
-
   end
 end

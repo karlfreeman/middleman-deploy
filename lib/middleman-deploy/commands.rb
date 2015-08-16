@@ -35,7 +35,7 @@ module Middleman
         aliases: '-b',
         desc: 'Run `middleman build` before the deploy step'
 
-      def self.subcommand_help options
+      def self.subcommand_help(_options)
         # TODO
       end
 
@@ -43,7 +43,6 @@ module Middleman
       def self.exit_on_failure?
         true
       end
-
 
       def deploy
         env = options['environment'] ? :production : options['environment'].to_s.to_sym
@@ -62,7 +61,7 @@ module Middleman
       protected
 
       def build_before(options = {})
-        build_enabled = options.fetch('build_before', self.deploy_options.build_before)
+        build_enabled = options.fetch('build_before', deploy_options.build_before)
 
         if build_enabled
           # http://forum.middlemanapp.com/t/problem-with-the-build-task-in-an-extension
@@ -71,16 +70,14 @@ module Middleman
       end
 
       def print_usage_and_die(message)
-        raise StandardError, "ERROR: #{message}\n#{Middleman::Deploy::README}"
+        fail StandardError, "ERROR: #{message}\n#{Middleman::Deploy::README}"
       end
-
-
 
       def process
         server_instance   = @app
-        camelized_method  = self.deploy_options.deploy_method.to_s.split('_').map { |word| word.capitalize}.join
+        camelized_method  = deploy_options.deploy_method.to_s.split('_').map(&:capitalize).join
         method_class_name = "Middleman::Deploy::Methods::#{camelized_method}"
-        method_instance   = method_class_name.constantize.new(server_instance, self.deploy_options)
+        method_instance   = method_class_name.constantize.new(server_instance, deploy_options)
 
         method_instance.process
       end

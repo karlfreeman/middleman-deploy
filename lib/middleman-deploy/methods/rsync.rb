@@ -17,17 +17,15 @@ module Middleman
 
         def process
           # Append "@" to user if provided.
-          user      = "#{self.user}@" if self.user && !self.user.empty?
+          user      = "#{self.user}@" if user && !user.empty?
 
-          dest_url  = "#{user}#{self.host}:#{self.path}"
+          dest_url  = "#{user}#{host}:#{path}"
           flags     = self.flags || '-avz'
-          command   = "rsync #{flags} '-e ssh -p #{self.port}' #{self.build_dir}/ #{dest_url}"
+          command   = "rsync #{flags} '-e ssh -p #{port}' #{build_dir}/ #{dest_url}"
 
-          if self.clean
-            command += ' --delete'
-          end
+          command += ' --delete' if clean
 
-          puts "## Deploying via rsync to #{dest_url} port=#{self.port}"
+          puts "## Deploying via rsync to #{dest_url} port=#{port}"
           exec command
         end
       end
