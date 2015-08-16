@@ -1,9 +1,9 @@
 module Middleman
   module Deploy
     PACKAGE = 'middleman-deploy'
-    VERSION = '1.0.0'
+    VERSION = '2.0.0-alpha'
     TAGLINE = 'Deploy a middleman built site over rsync, ftp, sftp, or git (e.g. gh-pages on github).'
-    README = %Q{
+    README = %{
 You should follow one of the four examples below to setup the deploy
 extension in config.rb.
 
