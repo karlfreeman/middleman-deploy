@@ -7,7 +7,7 @@ module Middleman
 
           camelized_strategy  = self.options.strategy.to_s.split('_').map { |word| word.capitalize}.join
           strategy_class_name = "Middleman::Deploy::Strategies::Git::#{camelized_strategy}"
-          strategy_instance   = strategy_class_name.constantize.new(self.server_instance.build_dir, self.options.remote, self.options.branch, self.options.commit_message)
+          strategy_instance   = strategy_class_name.constantize.new(self.build_dir, self.options.remote, self.options.branch, self.options.commit_message)
 
           strategy_instance.process
         end

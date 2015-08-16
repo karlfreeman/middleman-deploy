@@ -22,7 +22,7 @@ module Middleman
 
           ftp = open_connection
 
-          Dir.chdir(self.server_instance.build_dir) do
+          Dir.chdir(self.build_dir) do
             filtered_files.each do |filename|
               if File.directory?(filename)
                 upload_directory(ftp, filename)

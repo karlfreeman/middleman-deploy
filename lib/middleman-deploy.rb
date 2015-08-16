@@ -4,5 +4,5 @@ require 'middleman-deploy/commands'
 
 ::Middleman::Extensions.register(:deploy) do
   require 'middleman-deploy/extension'
-  ::Middleman::Deploy
+  ::Middleman::Deploy::Extension
 end
