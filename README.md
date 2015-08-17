@@ -30,10 +30,11 @@ activate :deploy do |deploy|
   deploy.host          = 'www.example.com'
   deploy.path          = '/srv/www/site'
   # Optional Settings
-  # deploy.user  = 'tvaughan' # no default
-  # deploy.port  = 5309 # ssh port, default: 22
-  # deploy.clean = true # remove orphaned files on remote host, default: false
-  # deploy.flags = '-rltgoDvzO --no-p --del' # add custom flags, default: -avz
+  # deploy.user      = 'tvaughan' # no default
+  # deploy.port      = 5309 # ssh port, default: 22
+  # deploy.clean     = true # remove orphaned files on remote host, default: false
+  # deploy.flags     = '-rltgoDvzO --no-p --del' # add custom flags, default: -avz
+  # deploy.ssh_flags = '-o UserKnownHostsFile=~/.ssh/known_hosts' # add custom ssh flags, no default
 end
 ```
 
