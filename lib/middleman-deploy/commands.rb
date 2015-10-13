@@ -66,6 +66,8 @@ module Middleman
         if build_enabled
           # http://forum.middlemanapp.com/t/problem-with-the-build-task-in-an-extension
           run("middleman build -e #{options['environment']}") || exit(1)
+        elsif !File.directory?('build')
+          print_usage_and_die 'You must build the project or enable build_before in config.rb before deploying.'
         end
       end
 
