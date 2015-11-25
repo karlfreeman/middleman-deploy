@@ -26,7 +26,7 @@ following to `config.rb`:
 
 ```ruby
 activate :deploy do |deploy|
-  deploy.deploy_method = :rsync
+  deploy.method        = :rsync
   deploy.host          = 'www.example.com'
   deploy.path          = '/srv/www/site'
   # Optional Settings
@@ -44,7 +44,7 @@ following to `config.rb`:
 
 ```ruby
 activate :deploy do |deploy|
-  deploy.deploy_method = :git
+  deploy.method     = :git
   # Optional Settings
   # deploy.remote   = 'custom-remote' # remote name or git url, default: origin
   # deploy.branch   = 'custom-branch' # default: gh-pages
@@ -70,7 +70,7 @@ Activate the extension by adding the following to `config.rb`:
 
 ```ruby
 activate :deploy do |deploy|
-  deploy.deploy_method   = :ftp
+  deploy.method          = :ftp
   deploy.host            = 'ftp.example.com'
   deploy.path            = '/srv/www/site'
   deploy.user            = 'tvaughan'
@@ -84,7 +84,7 @@ Activate the extension by adding the following to `config.rb`:
 
 ```ruby
 activate :deploy do |deploy|
-  deploy.deploy_method   = :sftp
+  deploy.method          = :sftp
   deploy.host            = 'sftp.example.com'
   deploy.port            = 22
   deploy.path            = '/srv/www/site'
@@ -115,13 +115,13 @@ Deploy your site to more than one configuration using environment variables.
 case ENV['TARGET'].to_s.downcase
 when 'production'
   activate :deploy do |deploy|
-    deploy.deploy_method   = :rsync
+    deploy.method          = :rsync
     deploy.host            = 'www.example.com'
     deploy.path            = '/srv/www/production-site'
   end
 else
   activate :deploy do |deploy|
-    deploy.deploy_method   = :rsync
+    deploy.method          = :rsync
     deploy.host            = 'staging.example.com'
     deploy.path            = '/srv/www/staging-site'
   end
