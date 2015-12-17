@@ -17,7 +17,7 @@ module Middleman
 
         def process
           # Append "@" to user if provided.
-          user      = "#{self.user}@" if user && !user.empty?
+          user      = "#{self.user}@" if self.user && !self.user.empty?
 
           dest_url  = "#{user}#{host}:#{path}"
           flags     = self.flags || '-avz'
