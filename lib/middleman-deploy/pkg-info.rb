@@ -21,6 +21,8 @@ activate :deploy do |deploy|
   deploy.clean = true
   # flags is optional (default is -avze)
   deploy.flags = "-rltgoDvzO --no-p --del -e"
+  # rsync_bin is option (default is rsync)
+  deploy.rsync_bin = "/usr/local/bin/rsync"
 end
 
 # To deploy to a remote branch via git (e.g. gh-pages on github):

@@ -2,17 +2,18 @@ module Middleman
   module Deploy
     module Methods
       class Rsync < Base
-        attr_reader :clean, :flags, :host, :path, :port, :user
+        attr_reader :clean, :flags, :host, :path, :port, :rsync_bin, :user
 
         def initialize(server_instance, options = {})
           super(server_instance, options)
 
-          @clean  = self.options.clean
-          @flags  = self.options.flags
-          @host   = self.options.host
-          @path   = self.options.path
-          @port   = self.options.port
-          @user   = self.options.user
+          @clean      = self.options.clean
+          @flags      = self.options.flags
+          @host       = self.options.host
+          @path       = self.options.path
+          @port       = self.options.port
+          @rsync_bin  = self.options.rsync_bin
+          @user       = self.options.user
         end
 
         def process
@@ -21,7 +22,8 @@ module Middleman
 
           dest_url  = "#{user}#{host}:#{path}"
           flags     = self.flags || '-avz'
-          command   = "rsync #{flags} '-e ssh -p #{port}' #{build_dir}/ #{dest_url}"
+          rsync_bin = self.rsync_bin || "rsync"
+          command   = "#{rsync_bin} #{flags} '-e ssh -p #{port}' #{build_dir}/ #{dest_url}"
 
           command += ' --delete' if clean
 

@@ -26,6 +26,7 @@ module Middleman
       option :build_before, nil
       option :flags, nil
       option :commit_message, nil
+      option :rsync_bin, nil
 
       def initialize(app, options_hash = {}, &block)
         super
