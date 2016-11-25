@@ -45,7 +45,7 @@ module Middleman
       end
 
       def deploy
-        env = options['environment'] ? :production : options['environment'].to_s.to_sym
+        env = options['environment'] ? options['environment'].to_s.to_sym : :production
         verbose = options['verbose'] ? 0 : 1
         instrument = options['instrument']
 
