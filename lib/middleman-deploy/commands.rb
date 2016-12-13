@@ -26,7 +26,7 @@ module Middleman
                    desc: 'Print debug messages'
 
       class_option :instrument,
-                   type: :string,
+                   type: :boolean,
                    default: false,
                    desc: 'Print instrument messages'
 
