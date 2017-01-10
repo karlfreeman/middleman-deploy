@@ -7,9 +7,8 @@ rvm:
   - ruby
   - jruby-head
   - jruby
-  - 2.1.0
-  - 2.0.0
-  - 1.9.3
+  - 2.2.0
+  - 2.3.3
   - rbx-2
 before_script: bundle update
 matrix:
@@ -23,4 +22,4 @@ matrix:
 notifications:
   email: false
 env:
-  - CODECLIMATE_REPO_TOKEN=5eee8e8624962f963a52a1d2313dc7407e3b8006291e3704346c786642cc073b 
+  - CODECLIMATE_REPO_TOKEN=5eee8e8624962f963a52a1d2313dc7407e3b8006291e3704346c786642cc073b
