@@ -7,7 +7,7 @@ rvm:
   - ruby
   - jruby-head
   - jruby
-  - 2.2.0
+  - 2.2.2
   - 2.3.3
   - rbx-2
 before_script: bundle update
