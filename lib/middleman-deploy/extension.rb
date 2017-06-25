@@ -26,6 +26,7 @@ module Middleman
       option :build_before, nil
       option :flags, nil
       option :commit_message, nil
+      option :last_changed, nil
 
       def initialize(app, options_hash = {}, &block)
         super
@@ -43,6 +44,7 @@ module Middleman
         options.commit_message ||= nil
 
         options.build_before ||= false
+        options.last_changed ||= nil # all files
       end
 
       def after_configuration

@@ -42,7 +42,9 @@ module Middleman
           files = Dir.glob('**/*', File::FNM_DOTMATCH)
 
           files.reject { |filename| filename =~ Regexp.new('\.$') }
-          files.reject { |filename| File.ctime(filename) < last_changed } unless last_changed.nil?
+          if last_changed.to_i > 0
+            files.reject { |filename| File.ctime(filename) < last_changed } unless last_changed.nil?
+          end
         end
 
         def handle_exception(exception, ftp, filename)
