@@ -5,7 +5,7 @@ module Middleman
   module Deploy
     module Methods
       class Ftp < Base
-        attr_reader :host, :port, :pass, :path, :user
+        attr_reader :host, :port, :pass, :path, :user, :last_changed
 
         def initialize(server_instance, options = {})
           super(server_instance, options)
@@ -15,6 +15,7 @@ module Middleman
           @pass = self.options.password
           @path = self.options.path
           @port = self.options.port
+          @last_changed = self.options.last_changed
         end
 
         def process
@@ -41,6 +42,7 @@ module Middleman
           files = Dir.glob('**/*', File::FNM_DOTMATCH)
 
           files.reject { |filename| filename =~ Regexp.new('\.$') }
+          files.reject { |filename| File.ctime(filename) < last_changed } unless last_changed.nil?
         end
 
         def handle_exception(exception, ftp, filename)
