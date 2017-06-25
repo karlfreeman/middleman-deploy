@@ -15,7 +15,7 @@ module Middleman
           end
 
           def process
-            raise NotImplementedError
+            fail NotImplementedError
           end
 
           protected
@@ -29,24 +29,25 @@ module Middleman
 
           def checkout_branch
             # if there is a branch with that name, switch to it, otherwise create a new one and switch to it
-            if `git branch`.split("\n").any? { |b| b =~ /#{self.branch}/i }
-              `git checkout #{self.branch}`
+            if `git branch`.split("\n").any? { |b| b =~ /#{branch}/i }
+              `git checkout #{branch}`
             else
-              `git checkout -b #{self.branch}`
+              `git checkout -b #{branch}`
             end
           end
 
           def commit_branch(options = '')
-            message = self.commit_message ? self.commit_message : add_signature_to_commit_message('Automated commit')
+            message = commit_message ? commit_message : add_signature_to_commit_message('Automated commit')
 
-            run_or_fail("git add -A")
+            run_or_fail('git add -A')
             run_or_fail("git commit --allow-empty -am \"#{message}\"")
-            run_or_fail("git push #{options} origin #{self.branch}")
+            run_or_fail("git push #{options} origin #{branch}")
           end
 
           private
+
           def run_or_fail(command)
-            system(command) || raise("ERROR running: #{command}")
+            system(command) || fail("ERROR running: #{command}")
           end
         end
       end

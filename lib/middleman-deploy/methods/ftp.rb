@@ -19,11 +19,11 @@ module Middleman
         end
 
         def process
-          puts "## Deploying via ftp to #{self.user}@#{self.host}:#{self.path}"
+          puts "## Deploying via ftp to #{user}@#{host}:#{path}"
 
           ftp = open_connection
 
-          Dir.chdir(self.server_instance.build_dir) do
+          Dir.chdir(build_dir) do
             filtered_files.each do |filename|
               if File.directory?(filename)
                 upload_directory(ftp, filename)
@@ -59,9 +59,9 @@ module Middleman
         end
 
         def open_connection
-          ftp = Net::FTP.new(self.host)
-          ftp.login(self.user, self.pass)
-          ftp.chdir(self.path)
+          ftp = Net::FTP.new(host)
+          ftp.login(user, pass)
+          ftp.chdir(path)
           ftp.passive = true
 
           ftp
@@ -78,11 +78,9 @@ module Middleman
         end
 
         def upload_directory(ftp, filename)
-          begin
-            ftp.mkdir(filename)
-            puts "Created directory #{filename}"
-          rescue
-          end
+          ftp.mkdir(filename)
+          puts "Created directory #{filename}"
+        rescue
         end
       end
     end

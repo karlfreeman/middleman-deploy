@@ -4,15 +4,32 @@ require 'middleman-core'
 # Extension namespace
 module Middleman
   module Deploy
-    class Options < Struct.new(:method, :host, :port, :user, :password, :path, :clean, :remote, :branch, :strategy, :build_before, :flags, :commit_message, :last_changed); end
+    @options
 
     class << self
-      def options
-        @@options
-      end
+      attr_reader :options
 
-      def registered(app, options_hash = {}, &block)
-        options = Options.new(options_hash)
+      attr_writer :options
+    end
+
+    class Extension < Extension
+      option :deploy_method, nil
+      option :host, nil
+      option :port, nil
+      option :user, nil
+      option :password, nil
+      option :path, nil
+      option :clean, nil
+      option :remote, nil
+      option :branch, nil
+      option :strategy, nil
+      option :build_before, nil
+      option :flags, nil
+      option :commit_message, nil
+
+      def initialize(app, options_hash = {}, &block)
+        super
+
         yield options if block_given?
 
         # Default options for the rsync method.
@@ -23,22 +40,13 @@ module Middleman
         options.remote ||= 'origin'
         options.branch ||= 'gh-pages'
         options.strategy ||= :force_push
-        options.commit_message  ||= nil
-        options.last_changed ||= nil
+        options.commit_message ||= nil
 
         options.build_before ||= false
-
-        @@options = options
-
-        app.send :include, Helpers
       end
 
-      alias_method :included, :registered
-    end
-
-    module Helpers
-      def options
-        ::Middleman::Deploy.options
+      def after_configuration
+        ::Middleman::Deploy.options = options
       end
     end
   end

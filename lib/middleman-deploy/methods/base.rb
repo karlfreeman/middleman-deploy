@@ -9,8 +9,12 @@ module Middleman
           @server_instance  = server_instance
         end
 
+        def build_dir
+          server_instance.config.setting(:build_dir).value
+        end
+
         def process
-          raise NotImplementedError
+          fail NotImplementedError
         end
       end
     end
