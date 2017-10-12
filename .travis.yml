@@ -10,6 +10,7 @@ rvm:
   - jruby-head
   - ruby-head
 before_script: bundle update
+script: bundle exec rake cucumber
 matrix:
   fast_finish: true
   allow_failures:
