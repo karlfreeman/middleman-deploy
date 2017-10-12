@@ -3,23 +3,19 @@ sudo: false
 cache: bundler
 bundler_args: --without development
 rvm:
-  - ruby-head
-  - ruby
-  - jruby-head
+  - 2.3.5
+  - 2.4.2
   - jruby
-  - 2.1.0
-  - 2.0.0
-  - 1.9.3
-  - rbx-2
+  - rbx-3
+  - jruby-head
+  - ruby-head
 before_script: bundle update
 matrix:
   fast_finish: true
   allow_failures:
     - rvm: ruby-head
-    - rvm: ruby
-    - rvm: jruby-head
     - rvm: jruby
-    - rvm: rbx-2
+    - rvm: rbx-3
 notifications:
   email: false
 env:
