@@ -7,12 +7,13 @@ module Middleman
         def initialize(server_instance, options = {})
           super(server_instance, options)
 
-          @clean  = self.options.clean
-          @flags  = self.options.flags
-          @host   = self.options.host
-          @path   = self.options.path
-          @port   = self.options.port
-          @user   = self.options.user
+          @clean     = self.options.clean
+          @flags     = self.options.flags
+          @host      = self.options.host
+          @path      = self.options.path
+          @port      = self.options.port
+          @user      = self.options.user
+          @ssh_flags = self.options.ssh_flags
         end
 
         def process
@@ -21,7 +22,7 @@ module Middleman
 
           dest_url  = "#{user}#{host}:#{path}"
           flags     = self.flags || '-avz'
-          command   = "rsync #{flags} '-e ssh -p #{port}' #{build_dir}/ #{dest_url}"
+          command   = "rsync #{flags} '-e ssh -p #{port} #{@ssh_flags}' #{build_dir}/ #{dest_url}"
 
           command += ' --delete' if clean
 
