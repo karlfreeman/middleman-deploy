@@ -17,9 +17,8 @@ module Middleman
 
         def process
           # Append "@" to user if provided.
-          user      = "#{self.user}@" if user && !user.empty?
-
-          dest_url  = "#{user}#{host}:#{path}"
+          username  = "#{self.user}@" if user && !user.empty?
+          dest_url  = "#{username}#{host}:#{path}"
           flags     = self.flags || '-avz'
           command   = "rsync #{flags} '-e ssh -p #{port}' #{build_dir}/ #{dest_url}"
 
