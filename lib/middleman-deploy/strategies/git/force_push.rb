@@ -35,21 +35,22 @@ module Middleman
           end
 
           def get_remote_url
-            remote  = self.remote
-            url     = remote
+            Dir.chdir('..') do
+              url = remote
 
-            # check if remote is not a git url
-            unless remote =~ /\.git$/
-              url = `git config --get remote.#{url}.url`.chop
+              # check if remote is not a git url
+              unless url.end_with?('.git')
+                url = `git config --get remote.#{remote}.url`.chop
+              end
+
+              # if the remote name doesn't exist in the main repo
+              if url == ''
+                puts "Can't deploy! Please add a remote with the name '#{remote}' to your repo."
+                exit
+              end
+
+              url
             end
-
-            # if the remote name doesn't exist in the main repo
-            if url == ''
-              puts "Can't deploy! Please add a remote with the name '#{remote}' to your repo."
-              exit
-            end
-
-            url
           end
         end
       end
